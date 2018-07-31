@@ -1,0 +1,53 @@
+<style type="text/css">
+    label{
+        font-weight: normal;
+        color: #040307;
+        text-transform: uppercase;
+    }
+    .label-heading label{
+        font-weight: bold;
+        text-align: center;
+    }
+</style>
+
+<h3 class="page-header-theme">Service</h3>
+
+<div class="table-block user-add-block">
+
+    <form name="userForm" novalidate>
+
+        <div class="row">
+            <div class="col-md-6">
+
+                <!--FName-->
+                <div class="form-group">
+                    <label >Name</label>
+                    <input type="text" class="form-control" ng-model="service.service_name" placeholder="Name">
+                </div>
+
+                <!--LName-->
+                <div class="form-group">
+                    <label >Detail</label>
+                    <input type="text" class="form-control" ng-model="service.service_detail" placeholder="Detail">
+                </div>
+
+                <!--User name-->
+                <div class="form-group">
+                    <label >Price:</label>
+                    <input type="text" class="form-control" ng-model="service.service_price" placeholder="Price">
+                </div>
+                <div class="form-group">
+                    <label >Image:</label>
+                    <td><div><a><img src="{{service.service_image}}" height="72" width="72"></a></div></td>
+                    <input type="text" class="form-control" ng-model="service.service_image" placeholder="Image">
+                </div>
+
+                <div class="form-group text-right">
+                    <button type="button" class="btn btn-success" ng-click="saveService()">Save</button>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+</div>

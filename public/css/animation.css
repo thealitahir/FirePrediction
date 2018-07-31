@@ -1,0 +1,36 @@
+.background-animation {
+    position: relative;
+    display: inline-block;
+    background-image: linear-gradient(#e3e4e4, #e3e4e4);
+    background-repeat: no-repeat;
+    -webkit-transition: background-size .3s, color .3s;
+    -moz-transition: background-size .3s, color .3s;
+    transition: background-size .3s, color .3s;
+}
+.center-right-left, .center-top-bottom, .center-corner {
+    background-position: 50% 50%;
+}
+.to-left {
+    background-position: 100% 50%;
+}
+.to-right {
+    background-position: 0% 50%;
+}
+.to-top {
+    background-position: 50% 100%;
+}
+.to-bottom {
+    background-position: 50% 0%;
+}
+.center-right-left, .to-left, .to-right {
+    background-size: 0% 100%;
+}
+.center-top-bottom, .to-top, .to-bottom {
+    background-size: 100% 0%;
+}
+.center-corner {
+    background-size: 0% 0%;
+}
+.background-animation:hover {
+    background-size: 100% 100%;
+}

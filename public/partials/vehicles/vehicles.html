@@ -1,0 +1,74 @@
+<style type="text/css">
+    label{
+        font-weight: normal;
+        color: #040307;
+        text-transform: uppercase;
+    }
+    .label-heading label{
+        font-weight: bold;
+        text-align: center;
+    }
+</style>
+
+<h3 class="page-header-theme">Vehicles</h3>
+
+<div class="table-block Vehicle-add-block">
+
+    <div name="userForm" novalidate>
+
+        <div class="row">
+            <div class="col-md-6">
+
+                <div class="form-group">
+                    <label >Company</label>
+                    <!--<select class="form-control" ng-model="vehicle1.company" placeholder="Select a Company" ng-options ="vehicle as vehicle.brand_name for vehicle in vehicle track by vehicle._id" ></ng-options>
+                    </select>-->
+                    <!--<select class="form-control" ng-model="vehicle1.company" >
+                        <select-match placeholder="Select a Company"><img ng-src="{{ vehicle.brand_icon }}" /> {{vehicle.brand_name}}</select-match>
+                        <select-choices repeat="vehicle in vehicle">
+                            <img ng-src="{{ vehicle1.brand_icon }}" />
+                            <div ng-bind-html="vehicle1.brand_name" ></div>
+                        </select-choices>
+                    </select>-->
+                    <ui-select ng-model="vehicle1.company" theme="bootstrap">
+                        <ui-select-match class="ui-select-match" placeholder="Select Company..."><img style="width: 20px;" ng-src="{{ vehicle1.company.brand_icon }}" /> {{vehicle1.company.brand_name}}</ui-select-match>
+                        <ui-select-choices class="ui-select-choices" repeat="vehicle in vehicle">
+                            <img style="width: 30px;" ng-src="{{ vehicle.brand_icon }}" />
+                            <small ng-bind-html="vehicle.brand_name"></small>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+
+                <div class="form-group">
+                    <label>Model Name</label>
+                    <input type="text" class="form-control" ng-model="vehicle1.model_name" placeholder="Model Name">
+                </div>
+
+                <div class="form-group">
+                    <label>year</label>
+                    <input type="text" class="form-control" ng-model="vehicle1.year" placeholder="year">
+                </div>
+
+                <div class="form-group">
+                    <label>color</label>
+                    <!--<select class="form-control" ng-model="vehicle1.color" ng-options ="colors as colors.color_name for colors in colors track by colors._id" ></ng-options>
+                    </select>-->
+                    <ui-select ng-model="vehicle1.color" theme="bootstrap">
+                        <ui-select-match class="ui-select-match" placeholder="Select color..."><span style="background-color:{{vehicle1.color.color_code}}; width: 20px; height: 20px; display: inline-block;" /> {{vehicle1.color.color_name}}</ui-select-match>
+                        <ui-select-choices class="ui-select-choices" repeat="colors in colors">
+                            <!--<img style="width: 30px;" ng-src="{{colors.color_code }}" />-->
+                            <span style="background-color:{{colors.color_code}}; width: 20px; height: 20px; display: inline-block;" />
+                            <small ng-bind-html="colors.color_name"></small>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+
+                <div class="form-group text-right">
+                    <button type="button" class="btn btn-success" ng-click="savevehicle()">Save</button>
+                </div>
+            </div>
+         </div>
+    </div>
+    </form>
+
+</div>

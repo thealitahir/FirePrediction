@@ -1,0 +1,35 @@
+<h3 class="page-header-theme">Members</h3>
+
+<div class="table-block user-list-table-block">
+
+    <div class="form-group">
+       <!-- <a href="#/users/add" class="btn btn-primary pull-right" title="Add new user">Add New User</a>-->
+        <input class="user-search-field form-control" type="text" placeholder="Search" ng-model="searchText">
+    </div>
+
+    <div class="user-list-table">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th> Name </th>
+                <th> Email </th>
+                <th> Phone </th>
+                <th> Actions </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="user in users | filter:searchText" >
+                <td>{{user.first_name+' '+user.last_name}}</td>
+                <td>{{user.email}}</td>
+                <td >{{user.phone}}</td>
+                <td>
+                    <span class="user-actions">
+                       <!-- <span ng-model="action" ng-click="editUser(user._id,'edit')" class="glyphicon-custom icon-custom-edit" title="Edit user"></span>-->
+                        <span ng-model="action" ng-click="editUser(user._id,'remove')" class="fa fa-trash-o" title="Delete user"></span>
+                    </span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

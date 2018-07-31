@@ -1,0 +1,41 @@
+<h3 class="page-header-theme">Services</h3>
+
+<div class="table-block user-list-table-block">
+
+    <div class="form-group">
+         <a ng-click="$state.go('serviceAdd')" class="btn btn-primary pull-right" title="Add new Service">Add New Service</a>
+        <!--<span class="service-actions">
+                        <span ng-model="action" ng-click="addServices(service._id,'add')" class="btn btn-primary pull-right" title="Add new Service"></span>
+                    </span>-->
+        <input class="user-search-field form-control" type="text" placeholder="Search" ng-model="searchText">
+    </div>
+
+    <div class="user-list-table">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th> Name </th>
+                <th> Image </th>
+                <th> Detail </th>
+                <th> Price </th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="service in services | filter:searchText" >
+                <td>{{service.service_name}}</td>
+                <td><a><img src="{{service.service_image}}" height="42" width="42"></a></td>
+                <!--<td>{{service.service_image}}</td>-->
+                <td>{{service.service_detail}}</td>
+                <td>{{service.service_price}}</td>
+                <td>
+                    <span class="service-actions">
+                        <span ng-model="action" ng-click="editServices(service._id,'edit')" class="fa fa-pencil-square-o" title="Edit Service"></span>
+                        <span ng-model="action" ng-click="editServices(service._id,'remove')" class="fa fa-trash-o" title="Delete Service"></span>
+                    </span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

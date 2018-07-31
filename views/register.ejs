@@ -1,0 +1,50 @@
+<html>
+<head>
+    <title>Express Authentication</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <style>
+        body { padding-top: 50px; }
+        img { width: 140px; height: 140px; }
+        .fa-sign-out { float: right; }
+    </style>
+</head>
+
+<body>
+<div class="col-sm-4 col-sm-offset-4">
+    <div class="jumbotron text-center">
+        <h1><span class="fa fa-sign-in"></span> Sign up</h1>
+        <% if (message.length > 0) { %>
+        <div id="error" class="alert alert-danger" style="font-size: 15px;font-weight: 400;height: 57px;"><%= message %></div>
+        <% } %>
+        <form action="/registerAdmin" method="post">
+            <div class="form-group">
+                <label>First Name</label>
+                <input type="text" id="fname" name="fname" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" id="lname" name="lname" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="username" name="username" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control" name="password" />
+            </div>
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" id="confirm_password" class="form-control" name="confirm_password" placeholder="Confirm Password" onkeyup="checkPass(); return false;"/>
+                <span id="confirmMessage" class="confirmMessage"></span>
+            </div>
+            <div>
+                <input type="submit" class="form-control" value="Submit" />
+            </div>
+        </form>
+    </div>
+    <hr>
+</div>
+</body>
+</html>
