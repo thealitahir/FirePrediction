@@ -9,34 +9,36 @@
             <button ng-click="changeOpacity()">Change opacity</button>
         </div>-->
 
-        <div class="custom-checkbox">
-            <div class="cell">
-                <label for="toggleHeatmap">
-                    <input type="checkbox" name="toggleHeatmap" value="toggleHeatmap" id="toggleHeatmap" ng-click="toggleHeatmap()">
-                    <span class="square"></span>
-                    Toggle Heatmap
-                </label>
-            </div>
-            <div class="cell">
-                <label for="changeGradient">
-                    <input type="checkbox" name="changeGradient" value="changeGradient" id="changeGradient" ng-click="changeGradient()">
-                    <span class="square"></span>
-                    Change gradient
-                </label>
-            </div>
-            <div class="cell">
-                <label for="changeRadius">
-                    <input type="checkbox" name="changeRadius" value="changeRadius" id="changeRadius" ng-click="changeRadius()">
-                    <span class="square"></span>
-                    Change radius
-                </label>
-            </div>
-            <div class="cell">
-                <label for="changeOpacity">
-                    <input type="checkbox" name="changeOpacity" value="changeOpacity" id="changeOpacity" ng-click="changeOpacity()">
-                    <span class="square"></span>
-                    Change opacity
-                </label>
+        <div class="left-col-content">
+            <div class="custom-checkbox">
+                <div class="cell">
+                    <label for="toggleHeatmap">
+                        <input type="checkbox" name="toggleHeatmap" value="toggleHeatmap" id="toggleHeatmap" ng-click="toggleHeatmap()">
+                        <span class="square"></span>
+                        Toggle Heatmap
+                    </label>
+                </div>
+                <div class="cell">
+                    <label for="changeGradient">
+                        <input type="checkbox" name="changeGradient" value="changeGradient" id="changeGradient" ng-click="changeGradient()">
+                        <span class="square"></span>
+                        Change gradient
+                    </label>
+                </div>
+                <div class="cell">
+                    <label for="changeRadius">
+                        <input type="checkbox" name="changeRadius" value="changeRadius" id="changeRadius" ng-click="changeRadius()">
+                        <span class="square"></span>
+                        Change radius
+                    </label>
+                </div>
+                <div class="cell">
+                    <label for="changeOpacity">
+                        <input type="checkbox" name="changeOpacity" value="changeOpacity" id="changeOpacity" ng-click="changeOpacity()">
+                        <span class="square"></span>
+                        Change opacity
+                    </label>
+                </div>
             </div>
         </div>
 
@@ -49,3 +51,40 @@
     </div>
 
 </div>
+
+
+<script>
+    $(document).ready(function(){
+        $('.hamburger').click(function(){
+
+            if ($(':animated').length) {
+                return false;
+            }
+
+            if ($(this).hasClass("open")){
+
+                $(this).removeClass("open");
+                $(".left-col-content").fadeOut( 200 , function() {
+                    $(".left-col").animate({
+                        "width" : "0px",
+                        "padding" : "0px",
+                        "margin" : "0px"
+                    });
+                });
+
+            } else {
+
+                $(this).addClass("open");
+                $(".left-col").animate({
+                    "width" : "200px",
+                    "padding" : "20px",
+                    "margin-right" : "10px"
+                }, function(){
+                    $(".left-col-content").fadeIn( 200 );
+                });
+
+            }
+
+        });
+    });
+</script>

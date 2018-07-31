@@ -66,6 +66,19 @@ a{
 
 /*--- Top Bar Navigation
 --------------------------------------*/
+.hamburger{
+  line-height: 40px;
+  /*margin: -0.5rem -0.8rem 0 0;*/
+  margin: 0 0.5rem 0 -0.5rem;
+  background: #606fc7;
+  color: #fff;
+  padding: 0.5rem;
+  font-size: 18px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+
 .navbar-bg{
   background-color: #5c4ac7;
 }
@@ -147,12 +160,22 @@ a{
 /*--- Left Column
 --------------------------------------*/
 .left-col{
-  float: left;
+  /*float: left;
   width: 200px;
   background: #fff;
   margin-right: 10px;
   border-radius: 3px;
-  padding: 20px;
+  padding: 20px;*/
+
+  float: left;
+  width: 0px;
+  background: #fff;
+  margin-right: 0px;
+  border-radius: 3px;
+  padding: 0px;
+}
+.left-col-content{
+  display: none;
 }
 /*------------------*/
 
