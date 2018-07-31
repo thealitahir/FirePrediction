@@ -1,0 +1,68 @@
+/*https://codepen.io/smfoisal/pen/zLEbjx?page=1&*/
+
+label input[type=radio],
+label input[type=checkbox] {
+  display: none;
+}
+.cell {
+  position: relative;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+label {
+  text-transform: capitalize;
+  padding-left: 1.75rem;
+  line-height: 1.5rem;
+  cursor: pointer;
+}
+label > span.circle,
+label > span.square,
+label > span.tick {
+  position: absolute;
+  top: 0; left: 0;
+  width: 1rem;
+  height: 1rem;
+  margin: 0.25rem 0;
+  border: 0.125rem solid #B0BEC5;
+  -webkit-transition: 0.1s all;
+  transition: 0.1s all;
+}
+label > span.circle { border-radius: 0.5rem; }
+label input[type=radio]:checked ~ span.circle {
+  border: 0.125rem solid #C2185B;
+}
+label input[type=checkbox]:checked ~ span.square {
+  /*border: 0.125rem solid #0097A7;*/
+  border: 0.125rem solid #5c4ac7;
+}
+label input[type=radio]:checked ~ span.circle:after {
+  content: "";
+  position: absolute;
+  margin: 0.125rem;
+  border-radius: 0.5rem;
+  display: inline-block;
+  background: #C2185B;
+  width: 0.5rem;
+  height: 0.5rem;
+}
+label input[type=checkbox]:checked ~ span.square:after {
+  content: "";
+  position: absolute;
+  margin: 0.125rem;
+  display: inline-block;
+  /*background: #0097A7;*/
+  background: #5c4ac7;
+  width: 0.5rem;
+  height: 0.5rem;
+}
+label input[type=checkbox]:checked ~ span.tick {
+  margin-left: 0.25rem;
+  width: 0.5rem;
+  border-top: none;
+  border-left: none;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  border-color: #4CAF50;
+}

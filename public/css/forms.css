@@ -1,0 +1,28 @@
+label {
+  color: #444;
+  font-weight: 400;
+}
+.form-control {
+  height: 40px;
+  border-radius: 0;
+  box-shadow: none;
+  border: 1px solid rgba(120,130,140,.13);
+  background: #fafafa;
+  color: #000;
+}
+.form-control:hover,
+.form-control:focus {
+  box-shadow: none;
+  border: 1px solid rgba(120,130,140,.13);
+  background: #fafafa;
+  color: #000;
+}
+
+.form-control::placeholder {
+  color: #6c757d;
+  opacity: 1;
+}
+.form-control::-moz-placeholder {
+  color: #6c757d;
+  opacity: 1;
+}

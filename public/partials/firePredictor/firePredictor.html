@@ -1,76 +1,51 @@
-<!--<style>
-    /* Always set the map height explicitly to define the size of the div
-     * element that contains the map. */
-    #map {
-        height: 100%;
-    }
-    /* Optional: Makes the sample page fill the window. */
-    html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-    }
-    #floating-panel {
-        position: absolute;
-        top: 10px;
-        left: 25%;
-        z-index: 5;
-        background-color: #fff;
-        padding: 5px;
-        border: 1px solid #999;
-        text-align: center;
-        font-family: 'Roboto','sans-serif';
-        line-height: 30px;
-        padding-left: 10px;
-    }
-    #floating-panel {
-        background-color: #fff;
-        border: 1px solid #999;
-        left: 25%;
-        padding: 5px;
-        position: absolute;
-        top: 10px;
-        z-index: 5;
-    }
+<div class="content-body">
 
-    .angular-google-map-container { height: 400px; }
+    <div class="left-col h-100">
 
-    .firePredictor {
-        position:relative;
-    }
-    .firePredictor{
-        position: absolute;
-        top: 5px;
-        left: 50%;
-        margin-left: -180px;
-        z-index: 5;
-        background-color: #fff;
-        padding: 5px;
-        border: 1px solid #999;
-    }
+        <!--<div id="panel">
+            <button ng-click="toggleHeatmap()">Toggle Heatmap</button>
+            <button ng-click="changeGradient()">Change gradient</button>
+            <button ng-click="changeRadius()">Change radius</button>
+            <button ng-click="changeOpacity()">Change opacity</button>
+        </div>-->
 
-</style>-->
+        <div class="custom-checkbox">
+            <div class="cell">
+                <label for="toggleHeatmap">
+                    <input type="checkbox" name="toggleHeatmap" value="toggleHeatmap" id="toggleHeatmap" ng-click="toggleHeatmap()">
+                    <span class="square"></span>
+                    Toggle Heatmap
+                </label>
+            </div>
+            <div class="cell">
+                <label for="changeGradient">
+                    <input type="checkbox" name="changeGradient" value="changeGradient" id="changeGradient" ng-click="changeGradient()">
+                    <span class="square"></span>
+                    Change gradient
+                </label>
+            </div>
+            <div class="cell">
+                <label for="changeRadius">
+                    <input type="checkbox" name="changeRadius" value="changeRadius" id="changeRadius" ng-click="changeRadius()">
+                    <span class="square"></span>
+                    Change radius
+                </label>
+            </div>
+            <div class="cell">
+                <label for="changeOpacity">
+                    <input type="checkbox" name="changeOpacity" value="changeOpacity" id="changeOpacity" ng-click="changeOpacity()">
+                    <span class="square"></span>
+                    Change opacity
+                </label>
+            </div>
+        </div>
 
-<!--<ng-map center="[31.475893,74.334738]"></ng-map>-->
-
-<div class="firePredictor">
-    <div id="panel">
-        <button ng-click="toggleHeatmap()">Toggle Heatmap</button>
-        <button ng-click="changeGradient()">Change gradient</button>
-        <button ng-click="changeRadius()">Change radius</button>
-        <button ng-click="changeOpacity()">Change opacity</button>
     </div>
-    <ng-map id="map" zoom="10" center="36.498435,-119.647315" map-type-id="">
-        <heatmap-layer id="foo" data="taxiData"></heatmap-layer>
-    </ng-map>
-</div>
 
-<!--<ng-map center="[40.74, -74.18]"></ng-map>-->
+    <div class="right-col h-100">
+        <ng-map id="map" zoom="10" center="36.498435,-119.647315" map-type-id="">
+            <heatmap-layer id="foo" data="taxiData"></heatmap-layer>
+        </ng-map>
+    </div>
 
-<<!--div id="floating-panel">
-    <button onclick="toggleHeatmap()">Toggle Heatmap</button>
-    <button onclick="changeGradient()">Change gradient</button>
-    <button onclick="changeRadius()">Change radius</button>
-    <button onclick="changeOpacity()">Change opacity</button>
 </div>
-<div id="map"></div>-->

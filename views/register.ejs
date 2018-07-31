@@ -1,50 +1,83 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Express Authentication</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
-    <style>
-        body { padding-top: 50px; }
-        img { width: 140px; height: 140px; }
-        .fa-sign-out { float: right; }
-    </style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>Signup</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/fontawesome-all.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+
 </head>
 
 <body>
-<div class="col-sm-4 col-sm-offset-4">
-    <div class="jumbotron text-center">
-        <h1><span class="fa fa-sign-in"></span> Sign up</h1>
-        <% if (message.length > 0) { %>
-        <div id="error" class="alert alert-danger" style="font-size: 15px;font-weight: 400;height: 57px;"><%= message %></div>
-        <% } %>
-        <form action="/registerAdmin" method="post">
-            <div class="form-group">
-                <label>First Name</label>
-                <input type="text" id="fname" name="fname" class="form-control">
-            </div>
-            <div class="form-group">
-                <label>Last Name</label>
-                <input type="text" id="lname" name="lname" class="form-control">
-            </div>
-            <div class="form-group">
-                <label>Username</label>
-                <input type="text" id="username" name="username" class="form-control">
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" class="form-control" name="password" />
-            </div>
-            <div class="form-group">
-                <label>Confirm Password</label>
-                <input type="password" id="confirm_password" class="form-control" name="confirm_password" placeholder="Confirm Password" onkeyup="checkPass(); return false;"/>
-                <span id="confirmMessage" class="confirmMessage"></span>
-            </div>
-            <div>
-                <input type="submit" class="form-control" value="Submit" />
-            </div>
-        </form>
+
+
+<div class="container h-100">
+    <div class="row justify-content-center h-100">
+        <div class="col-4 my-auto login-block">
+
+            <% if (message.length > 0) { %>
+            <div id="error" class="alert alert-danger" style="font-size: 15px;font-weight: 400;height: 57px;"><%= message %></div>
+            <% } %>
+
+            <form action="/registerAdmin" method="post">
+
+                <h4>Sign up</h4>
+
+                <div class="form-group">
+                    <label for="fname">First Name</label>
+                    <input type="fname" class="form-control" id="fname" placeholder="Enter first name" name="fname">
+                </div>
+
+                <div class="form-group">
+                    <label for="lname">Last Name</label>
+                    <input type="lname" class="form-control" id="lname" placeholder="Enter last name" name="lname">
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Email address</label>
+                    <input type="username" class="form-control" id="username" placeholder="Enter username" name="username">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Enter Password" name="password">
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password</label>
+                    <input type="confirm_password" class="form-control" id="confirm_password" placeholder="Confirm password" name="confirm_password">
+                    <span id="confirmMessage" class="confirmMessage"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+                <div class="text-center">Already have account ? <a href="#"> Login Here</a></div>
+
+            </form>
+
+        </div>
     </div>
-    <hr>
 </div>
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/jquery.3.3.1.min.js"></script>
+<script src="js/popper.1.14.3.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </body>
 </html>
