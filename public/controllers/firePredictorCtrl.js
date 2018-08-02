@@ -3,9 +3,25 @@
  */
 
 angular.module('webApp.controllers')
-    .controller('firePredictorCtrl', ['$scope','$state','firePredictorService','notifyService','NgMap', function ($scope,$state,firePredictorService,notifyService,NgMap) {
+    .controller('firePredictorCtrl', ['$scope','$state','firePredictorService','notifyService','NgMap','esriLoader', function ($scope,$state,firePredictorService,notifyService,NgMap,esriLoader) {
+        $scope.center = {
+            lat: 36.7783,
+            lng: -119.4179,
+            zoom: 5
+        };
         console.log("asd");
-        $scope.map = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
+        var LeafIcon = L.Icon.extend({
+            options: {
+                iconSize:     [38, 95],
+                iconAnchor:   [22, 94],
+                popupAnchor:  [-3, -76]
+            }
+        });
+
+        var greenIcon = new LeafIcon({iconUrl: '../images/battery.png'}),
+            redIcon = new LeafIcon({iconUrl: '../images/hydro_icon.png'}),
+            orangeIcon = new LeafIcon({iconUrl: '../images/nuclear.png'});
+
         /*firePredictorService.getFirePredictorValues().success(function (res) {
             if(res.status)
             {
@@ -13,19 +29,27 @@ angular.module('webApp.controllers')
             }
         });*/
 
+       /* esriLoader.require(['esri/Map'], function(Map) {
+            $scope.map = new Map({
+                basemap: 'streets'
+            });
+        });*/
+
+        /*$scope.map = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
         $scope.heatmap;
         $scope.taxiData = getPoints();
         $scope.pointArray = new google.maps.MVCArray($scope.taxiData);
         NgMap.getMap("map").then(function(map) {
-            /*console.log(map);
+            /!*console.log(map);
             console.log(map.getCenter());
             console.log('markers', map.markers);
-            console.log('shapes', map.shapes);*/
+            console.log('shapes', map.shapes);*!/
             $scope.map = map;
             //$scope.heatmap = $scope.map.heatmapLayers.foo;
             $scope.heatmap = new google.maps.visualization.HeatmapLayer({
                 data: $scope.pointArray,
-                map:map
+                map:map,
+                radius:25
             });
             //$scope.heatmap.setMap(map);
             //console.log($scope.taxiData);
@@ -66,59 +90,13 @@ angular.module('webApp.controllers')
             $scope.heatmap.set('opacity', $scope.heatmap.get('opacity') ? null : 0.2);
         }
 
-        /*var map, heatmap;
-
-        function initMap() {
-            map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 13,
-                center: {lat: 36.775, lng: -119.434},
-                mapTypeId: 'satellite'
-            });
-
-            heatmap = new google.maps.visualization.HeatmapLayer({
-                data: getPoints(),
-                map: map
-            });
-        }
-
-        function toggleHeatmap() {
-            heatmap.setMap(heatmap.getMap() ? null : map);
-        }
-
-        function changeGradient() {
-            var gradient = [
-                'rgba(0, 255, 255, 0)',
-                'rgba(0, 255, 255, 1)',
-                'rgba(0, 191, 255, 1)',
-                'rgba(0, 127, 255, 1)',
-                'rgba(0, 63, 255, 1)',
-                'rgba(0, 0, 255, 1)',
-                'rgba(0, 0, 223, 1)',
-                'rgba(0, 0, 191, 1)',
-                'rgba(0, 0, 159, 1)',
-                'rgba(0, 0, 127, 1)',
-                'rgba(63, 0, 91, 1)',
-                'rgba(127, 0, 63, 1)',
-                'rgba(191, 0, 31, 1)',
-                'rgba(255, 0, 0, 1)'
-            ]
-            heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
-        }
-
-        function changeRadius() {
-            heatmap.set('radius', heatmap.get('radius') ? null : 20);
-        }
-
-        function changeOpacity() {
-            heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
-        }*/
         // Heatmap data: 500 Points
         function getPoints() {
             return [
                 new google.maps.LatLng(36.782551, -119.445368),
                 new google.maps.LatLng(36.782745, -119.444586),
-                new google.maps.LatLng(36.782842, -119.443688),
-                new google.maps.LatLng(36.782919, -119.442815),
+                new google.maps.LatLng(36.782842, -119.443688)
+                /!*new google.maps.LatLng(36.782919, -119.442815),
                 new google.maps.LatLng(36.782992, -119.442112),
                 new google.maps.LatLng(36.783100, -119.441461),
                 new google.maps.LatLng(36.783206, -119.440829),
@@ -614,7 +592,7 @@ angular.module('webApp.controllers')
                 new google.maps.LatLng(36.754665, -119.403242),
                 new google.maps.LatLng(36.753831, -119.403172),
                 new google.maps.LatLng(36.752986, -119.403112),
-                new google.maps.LatLng(36.751266, -119.403355)
+                new google.maps.LatLng(36.751266, -119.403355)*!/
             ];
-        }
+        }*/
     }]);

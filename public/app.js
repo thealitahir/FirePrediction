@@ -14,7 +14,9 @@ var webApp = angular.module('webApp',[
     'webApp.controllers',
     'ngSanitize',
     'ui.select',
-    'ngMap'
+    'ngMap',
+    'esri.map',
+    'leaflet-directive'
 ])
     .run(
     [          '$rootScope', '$state', '$stateParams','userService','notifyService',
