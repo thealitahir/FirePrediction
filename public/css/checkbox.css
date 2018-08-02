@@ -1,7 +1,7 @@
 /*https://codepen.io/smfoisal/pen/zLEbjx?page=1&*/
 
-label input[type=radio],
-label input[type=checkbox] {
+.custom-radio label input[type=radio],
+.custom-checkbox label input[type=checkbox] {
   display: none;
 }
 .cell {
@@ -9,15 +9,19 @@ label input[type=checkbox] {
   display: block;
   margin-bottom: 0.5rem;
 }
-label {
+.custom-checkbox label,
+.custom-radio label {
   text-transform: capitalize;
   padding-left: 1.75rem;
   line-height: 1.5rem;
   cursor: pointer;
 }
-label > span.circle,
-label > span.square,
-label > span.tick {
+.custom-checkbox label > span.circle,
+.custom-radio label > span.circle,
+.custom-checkbox label > span.square,
+.custom-radio label > span.square,
+.custom-checkbox label > span.tick,
+.custom-radio label > span.tick {
   position: absolute;
   top: 0; left: 0;
   width: 1rem;
@@ -27,15 +31,18 @@ label > span.tick {
   -webkit-transition: 0.1s all;
   transition: 0.1s all;
 }
-label > span.circle { border-radius: 0.5rem; }
-label input[type=radio]:checked ~ span.circle {
+.custom-checkbox label > span.circle,
+.custom-radio label > span.circle {
+  border-radius: 0.5rem;
+}
+.custom-radio label input[type=radio]:checked ~ span.circle {
   border: 0.125rem solid #C2185B;
 }
-label input[type=checkbox]:checked ~ span.square {
+.custom-checkbox label input[type=checkbox]:checked ~ span.square {
   /*border: 0.125rem solid #0097A7;*/
   border: 0.125rem solid #5c4ac7;
 }
-label input[type=radio]:checked ~ span.circle:after {
+.custom-radio label input[type=radio]:checked ~ span.circle:after {
   content: "";
   position: absolute;
   margin: 0.125rem;
@@ -45,7 +52,7 @@ label input[type=radio]:checked ~ span.circle:after {
   width: 0.5rem;
   height: 0.5rem;
 }
-label input[type=checkbox]:checked ~ span.square:after {
+.custom-checkbox label input[type=checkbox]:checked ~ span.square:after {
   content: "";
   position: absolute;
   margin: 0.125rem;
@@ -55,7 +62,7 @@ label input[type=checkbox]:checked ~ span.square:after {
   width: 0.5rem;
   height: 0.5rem;
 }
-label input[type=checkbox]:checked ~ span.tick {
+.custom-checkbox label input[type=checkbox]:checked ~ span.tick {
   margin-left: 0.25rem;
   width: 0.5rem;
   border-top: none;
