@@ -29,6 +29,9 @@ body{
 a{
   color: #4680ff;
 }
+li{
+  list-style-type: none;
+}
 .container{
   width: 100%;
   max-width: 100%;
@@ -161,11 +164,11 @@ a{
 --------------------------------------*/
 .left-col{
   /*float: left;
-  width: 200px;
+  width: 286px;
   background: #fff;
   margin-right: 10px;
   border-radius: 3px;
-  padding: 20px;*/
+  padding: 15px;*/
 
   float: left;
   width: 0px;
@@ -176,6 +179,56 @@ a{
 }
 .left-col-content{
   display: none;
+}
+/*------------------*/
+
+
+/*--- Left Column Tabs
+--------------------------------------*/
+.left-col-tabs li{
+  color: #1976d2;
+  text-align: center;
+  padding: 3px 0;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.left-col-tabs li.active{
+  background: #1976d2;
+  color: #ffffff;
+}
+.left-col-tabs li i{
+  font-size: 16px;
+}
+
+.left-col-tabs-content h4{
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: solid 1px #eee;
+}
+.left-col-tabs-content h5{
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 5px 0px;
+}
+.left-col-tabs-content .custom-checkbox .cell{
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+.left-col-tabs-content .custom-checkbox .cell > span{
+  cursor: pointer;
+}
+.left-col-tabs-content .custom-checkbox .cell > span:hover{
+  border-bottom: solid 1px #1976d2;
+}
+.left-col-tabs-content .custom-checkbox label{
+  padding-left: 1.25rem;
+  cursor: default;
+}
+.left-col-tabs-content .cell-content{
+  margin-left: 12px;
 }
 /*------------------*/
 
