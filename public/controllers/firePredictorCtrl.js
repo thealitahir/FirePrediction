@@ -18,9 +18,13 @@ angular.module('webApp.controllers')
             }
         });
 
-        var greenIcon = new LeafIcon({iconUrl: '../images/battery.png'}),
-            redIcon = new LeafIcon({iconUrl: '../images/hydro_icon.png'}),
-            orangeIcon = new LeafIcon({iconUrl: '../images/nuclear.png'});
+        var battery = new LeafIcon({iconUrl: '../images/battery.png'}),
+            hydro = new LeafIcon({iconUrl: '../images/hydro_icon.png'}),
+            nuclear = new LeafIcon({iconUrl: '../images/nuclear.png'});
+
+        L.marker([36.77835, -119.4179], {icon: battery}).addTo(map).bindPopup("I am a battery.");
+        L.marker([36.77836, -119.4180], {icon: hydro}).addTo(map).bindPopup("I am a hydro plant.");
+        L.marker([36.77837, -119.4181], {icon: nuclear}).addTo(map).bindPopup("I am an nuclear plant.");
 
         /*firePredictorService.getFirePredictorValues().success(function (res) {
             if(res.status)
