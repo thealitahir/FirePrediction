@@ -3,28 +3,100 @@
  */
 
 angular.module('webApp.controllers')
-    .controller('firePredictorCtrl', ['$scope','$state','firePredictorService','notifyService','NgMap','esriLoader', function ($scope,$state,firePredictorService,notifyService,NgMap,esriLoader) {
-        $scope.center = {
-            lat: 36.7783,
-            lng: -119.4179,
-            zoom: 5
-        };
-        console.log("asd");
-        var LeafIcon = L.Icon.extend({
-            options: {
-                iconSize:     [38, 95],
-                iconAnchor:   [22, 94],
-                popupAnchor:  [-3, -76]
+    .controller('firePredictorCtrl', ['$scope','$state','firePredictorService','notifyService','$http', function ($scope,$state,firePredictorService,notifyService,$http) {
+        angular.extend($scope, {
+            center: {
+                lat: 31.99,
+                lng: -33.43,
+                zoom: 3
+            },
+            geojson : {
+                data: {
+                    "type": "FeatureCollection",
+                    "features": [
+                        {
+                            "type": "Feature",
+                            "properties": {},
+                            "geometry": {
+                                "type": "Polygon",
+                                "coordinates": [
+                                    [
+                                        [
+                                            -49.92187499999999,
+                                            13.239945499286312
+                                        ],
+                                        [
+                                            -49.92187499999999,
+                                            54.57206165565852
+                                        ],
+                                        [
+                                            -13.7109375,
+                                            54.57206165565852
+                                        ],
+                                        [
+                                            -13.7109375,
+                                            13.239945499286312
+                                        ],
+                                        [
+                                            -49.92187499999999,
+                                            13.239945499286312
+                                        ]
+                                    ]
+                                ]
+                            }
+                        }
+                    ]
+                },
+                style: {
+                    fillColor: "green",
+                    weight: 2,
+                    opacity: 1,
+                    color: 'white',
+                    dashArray: '3',
+                    fillOpacity: 0.7
+                }
             }
         });
 
-        var battery = new LeafIcon({iconUrl: '../images/battery.png'}),
-            hydro = new LeafIcon({iconUrl: '../images/hydro_icon.png'}),
-            nuclear = new LeafIcon({iconUrl: '../images/nuclear.png'});
+        $scope.updateGeojson = function() {
+            $scope.geojson.data = {
+                "type": "FeatureCollection",
+                "features": [
+                    {
+                        "type": "Feature",
+                        "properties": {},
+                        "geometry": {
+                            "type": "Polygon",
+                            "coordinates": [
+                                [
+                                    [
+                                        -41.8359375,
+                                        28.92163128242129
+                                    ],
+                                    [
+                                        -41.8359375,
+                                        38.272688535980976
+                                    ],
+                                    [
+                                        -26.015625,
+                                        38.272688535980976
+                                    ],
+                                    [
+                                        -26.015625,
+                                        28.92163128242129
+                                    ],
+                                    [
+                                        -41.8359375,
+                                        28.92163128242129
+                                    ]
+                                ]
+                            ]
+                        }
+                    }
+                ]
+            };
+        }
 
-        L.marker([36.77835, -119.4179], {icon: battery}).addTo(map).bindPopup("I am a battery.");
-        L.marker([36.77836, -119.4180], {icon: hydro}).addTo(map).bindPopup("I am a hydro plant.");
-        L.marker([36.77837, -119.4181], {icon: nuclear}).addTo(map).bindPopup("I am an nuclear plant.");
 
         /*firePredictorService.getFirePredictorValues().success(function (res) {
             if(res.status)
