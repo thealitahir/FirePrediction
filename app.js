@@ -73,9 +73,6 @@ app.use(passport.session());
   }
 });*/
 
-app.get('/test', function(req, res) {
-  res.render('test');
-});
 app.get('/' , routes.index);
 /*app.get('/test',routes.test);
 app.get('/test1',elasticRoute.test);
