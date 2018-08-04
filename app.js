@@ -148,7 +148,7 @@ app.post('/registerAdmin',passport.authenticate('local-register',{
   failureFlash: true
 }));
 app.post('/login',passport.authenticate('local',{
-  successRedirect: '/',
+  successRedirect: '/test',
   failureRedirect: '/login',
   failureFlash: true
 }));

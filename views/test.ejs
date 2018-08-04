@@ -1,84 +1,385 @@
-<html ng-app="demoapp">
+<html ng-app="webApp">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="../js/angular/angular.min.js"></script>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+    <link href="css/fontawesome-all.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+    <link rel="stylesheet" href="//unpkg.com/leaflet@0.7.7/dist/leaflet.css">
+    <link rel="icon" href="favicon.ico">
+    <title>Fire</title>
+
+    <script src="js/jquery.3.3.1.min.js"></script>
+    <script src="js/popper.1.14.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="js/underscore-min.js"></script>
+
+    <!--angular files-->
+    <script src="js/angular/angular.min.js"></script>
+
     <script src="//unpkg.com/leaflet@0.7.7/dist/leaflet.js"></script>
     <script src="../js/angular/angular-leaflet-directive.min.js"></script>
-    <link rel="stylesheet" href="//unpkg.com/leaflet@0.7.7/dist/leaflet.css">
-    <script>
-        var app = angular.module("demoapp", ["leaflet-directive"]);
-        app.controller("BasicGeoJSONUpdateController", [ '$scope', '$http', function($scope, $http) {
 
-            angular.extend($scope, {
-                center: {
-                    lat: 36.7783,
-                    lng: -119.4179,
-                    zoom: 4
-                },
-                defaults: {
-                    scrollWheelZoom: false
-                }
-            });
+    <script src="js/bootstrap/ui-bootstrap-tpls-1.3.2.min.js"></script>
+    <script src="js/angular/angular-ui-router.min.js"></script>
+    <script src="js/angular/angular-animate.min.js"></script>
+
+    <script src="controllers/test.js"/>
+
+    <!--<script src="controllers/usersCtrl.js"></script>-->
+    <!--<script src="controllers/vendorsCtrl.js"></script>-->
+
+    <!--<script src="controllers/vehicleCtrl.js"></script>-->
+    <!--<script src="controllers/serCtrl.js"></script>-->
+    <!--<script src="controllers/firePredictorCtrl.js"></script>-->
 
 
+    <!--services-->
+    <!--<script src="services/userService.js"></script>-->
+    <!--<script src="services/vendorService.js"></script>-->
+    <!--<script src="services/notifyService.js"></script>-->
 
-            $http.get("/json/california_power_plant.json").success(function(data, status) {
-                angular.extend($scope, {
-                    geojson: {
-                        data: data,
-                        style: {
-                            weight: 2,
-                            opacity: 1,
-                            dashArray: '3',
-                            fillOpacity: 0.7
-                        }
-                    }
-                });
-            });
-            $scope.updateGeojson = function() {
-                $scope.geojson.data = {
-                    "type": "FeatureCollection",
-                    "features": [
-                        {
-                            "type": "Feature",
-                            "properties": {},
-                            "geometry": {
-                                "type": "Polygon",
-                                "coordinates": [
-                                    [
-                                        [
-                                            -41.8359375,
-                                            28.92163128242129
-                                        ],
-                                        [
-                                            -41.8359375,
-                                            38.272688535980976
-                                        ],
-                                        [
-                                            -26.015625,
-                                            38.272688535980976
-                                        ],
-                                        [
-                                            -26.015625,
-                                            28.92163128242129
-                                        ],
-                                        [
-                                            -41.8359375,
-                                            28.92163128242129
-                                        ]
-                                    ]
-                                ]
-                            }
-                        }
-                    ]
-                };
-            }
-        }]);
-    </script>
+    <!--<script src="services/vehicleService.js"></script>-->
+    <!--<script src="services/serService.js"></script>-->
+    <!--<script src="services/firePredictorService.js"></script>-->
+    <script src="js/select.js"></script>
 </head>
 <body ng-controller="BasicGeoJSONUpdateController">
-<leaflet lf-center="center" geojson="geojson" width="100%" height="480px"></leaflet>
-<h1>GeoJSON update example</h1>
-<button ng-click="updateGeojson()">update GeoJSON</button>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top navbar-bg">
+
+
+    <div class="hamburger">
+        <i class="fas fa-bars"></i>
+    </div>
+
+
+    <a class="navbar-brand" href="#" style="width: 200px;">LOGO</a>
+
+    <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>-->
+
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Dashboard</a>
+            </li>
+        </ul>
+
+        <div class="user-menu">
+            <div class="dropdown">
+          <span class="dropdown-toggle" data-toggle="dropdown">
+            <i class="fas fa-user-alt"></i>
+            Welcome user
+          </span>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</nav>
+<div class="content-body">
+
+    <div class="left-col h-100">
+
+
+
+
+
+        <!--<div id="panel">
+            <button ng-click="toggleHeatmap()">Toggle Heatmap</button>
+            <button ng-click="changeGradient()">Change gradient</button>
+            <button ng-click="changeRadius()">Change radius</button>
+            <button ng-click="changeOpacity()">Change opacity</button>
+        </div>-->
+
+        <div class="left-col-content">
+
+            <div class="left-col-tabs mb-3" ng-init="lcTab = 1">
+                <ul class="row m-0">
+                    <li class="col" ng-class="{active : lcTab == 1}" ng-click="lcTab = 1">
+                        <i class="fas fa-info-circle"></i>
+                        About
+                    </li>
+                    <li class="col" ng-class="{active : lcTab == 2}" ng-click="lcTab = 2">
+                        <i class="fas fa-cog"></i>
+                        Content
+                    </li>
+                    <li class="col" ng-class="{active : lcTab == 3}" ng-click="lcTab = 3">
+                        <i class="far fa-list-alt"></i>
+                        Legend
+                    </li>
+                </ul>
+            </div>
+
+            <div class="left-col-tabs-content">
+
+                <div ng-show="lcTab == 1">
+
+                    <h4>About</h4>
+
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                    when an unknown printer took a galley of type and scrambled it to make a type
+                    specimen book. It has survived not only five centuries, but also the leap into
+                    electronic typesetting, remaining essentially unchanged.
+                </div>
+
+                <div ng-show="lcTab == 2">
+
+                    <h4>Content</h4>
+
+                    <div class="custom-checkbox">
+
+                        <div class="cell">
+                            <label for="toggleHeatmap">
+                                <input type="checkbox" name="toggleHeatmap" value="toggleHeatmap" id="toggleHeatmap" ng-click="toggleHeatmap()">
+                                <span class="square"></span>
+                            </label>
+                            <span ng-click="showCellContent1 = !showCellContent1">Toggle Heatmap</span>
+                        </div>
+                        <div class="cell-content" ng-show="showCellContent1">
+                            <ul>
+                                <li>
+                                    <svg overflow="hidden" width="30" height="17.333333333333332" style="touch-action: none;"><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-9" y="-9" width="17.333333333333332" height="17.333333333333332" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAoJJREFUOI1jYaASYMEjJ2vuLhkjIsFty/CHge8fA8OzC/vubHj+nGE9AwPDd2IM4vSNVZl97+67UK9IHVYRcR7GRRNOMCSVWDFIyfMEXjn9cjq3AEPmvtXPl+EziN8hUPKCgb2cXM0MLyYOLjaGD2+/MQiJcDNYuCgyWLgosjx78IFvQvWBBaGZ6nqrp9+swGqQZ6zKTkcfdXn3ME1GXP6VUhBgaJjhwdqQtqM4Ktv4/LKpZ1eiGOTkL+/LxcVs7BqijtMQGODi5WDIa7VnmVS9ZwYDA8MaBgaGv3CDRGR4GgIT9FmYmJgImcPAwMDAIKMkyCCpIMgfXSgStLT/7Gq4Qc/vvdOUUxUkyhAYMHNQZLxy6lkEAwMDwqA7t99xdBTsYWBC89ivn38ZTu5/zFCXtBnDoHevPjGoG8nJMzAghZGcotCf7AZbVk5uNhTFH999Z/jzex9DUZczhkFnjzxmuHv11XcUgzQNxF/++f1XRkCEC1U1IwMDCxsrA4Y4AwPDm2efGXj5Oc+gGCSjJLDq+J6HRbIqwlhCAxN8+fidYefam//dnIS6UAxqyTxQHpisnnnvmhynkpYIXkP+//vHsH7eJQa3YM3d7dn7nqMYxMDA8MfcRSV4YsX+rbltDowqOqJYDfnz+y/DpsVXGN68+PyORfKCH0wcJWVXRG7d3r3GN3hB79GV6nqSrFZuSgzsnCwM//4yMLx79Y3hwY3XDGvmnGdQ0RG7p2vFZVocwPATq0EMDAwMpSGb17ev9hb69fXX3I2LLnpcPP6I99Gdr4xtOVv/aplIP3MO0uwoCtw8DV0f1mKkMnTrFwYGhnBksd2rHzLsXv0Qq3dxGkQOAADNqM91qkxpQQAAAABJRU5ErkJggg==" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.33333333,9.00000000)"></image></svg>
+                                    Legend - 1
+                                </li>
+                                <li>
+                                    <svg overflow="hidden" width="30" height="17.333333333333332" style="touch-action: none;"><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-9" y="-9" width="17.333333333333332" height="17.333333333333332" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAo5JREFUOI2t1F1IU2EYB/D/zjnbzvEDU0fLdClYkl7oIjZtoBeTaVpBM0lsyBZB0oXV/SCWJEWEN5uBMCoRYSWkRjBL8cYUplAhJIijZk1HmTh0fuxs56yLdVbHLSnouXrej+f3vufh8FL4T0Hts1bYoFYbT6nVBQxFyVc3Njb7JyfnA4HAMIDQ30DMDaPxdoteX6MtLT1JEkRizy2zee3l9LTp6fi4a8jj6dsPyrzf3t5/vampQS6VygCABQUZogCAdIbJbamtPV1dUXE8b2Cg5OHIiDUl1NnW1nOzufmclCQJAFiRHMB3Ih3l3LLotMMKRZHVZDKzLPvJ6XY7RdAFna7e3NhYLyAAMEaq8FkiT4J+YvlnqqosTrfbBSCUgOo1GssRpfKgMF4icmEhFQCAKuooDFFvElan0WjNer2pb2KiNwEVKJUlQs6BwAPq2K8CUoXXMcDAibE0mpZWlpVpRRAtk2UL+SypgkPCiE+nVHiLXZzg/KL5rMzMbFGPeJ7nhXyIPJT0GQBwjyqCi/ND8tscD3AiKLS7+xVAMQA833MbIZ5BiscSOdJi4XgLeB5rweCKCPoWDE6FdnZ0GQyD2lgYXgmdBFWChzwWSYw/+Hybi+vrDhF0tbvbmpeTc/GsTld4hVtGL1WcBN2J+kEi3oFwJIJ3CwsTPS7XoggCEAmx7LWZ+flBbRnSZxHDEyofr0DDgDAs0RVouaX4Ro7Di6kp74LPd0koFv3ZrZ2d7mGbzTTq8Tiry3cUDuZL0q38q6t4Mzf3notE6u4ODm6nhADgvM02Mma3j416PD1ZGRk1aTSdTxKEjI1GNze2tj5uh8OPWru67HvrUj4jho6ObQCXU639KfZ7j/4pfgAE4uLCJ5RjkwAAAABJRU5ErkJggg==" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.33333333,9.00000000)"></image></svg>
+                                    Legend - 2
+                                </li>
+                                <li>
+                                    <svg overflow="hidden" width="30" height="17.333333333333332" style="touch-action: none;"><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-9" y="-9" width="17.333333333333332" height="17.333333333333332" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAmxJREFUOI2tlE9I2mEcxj9paplDmjGQAg+DYKcOA6OgDpFzroJWtHBBtg7BgvRUYUG0LoGXjM2gkoEFUe5Qq2hSsFMjKCIvDaLYYMj6RwUmxs+l7fCr7NckNthzenmf5/3wfR9e3nT+k9Lv8AwWC8+LilR5mZmC6vBQdTo+Lnzd3WUGiPwNKNPh4E19PaVGI4/lcuEyI9DTw9H8PA1TU0xOT+O7C3TP5WK8sZFne3so5HKpqVaj0+l46nbzSK8nf2iI7pSgvj48zc1UtbYiC4VgcRGyspJ+MAgmE7hcGJxObLEY371evBJQba3KbLMJ5tFRZH6/uLewAHV14vr8HAYHxXVHBxQXk1tRQZPXyyQQuQaZzUKTSsUDpzM5QXs7lJeDRgNra+C70crYGAwMYLTZaPD5GL4G5eWR/+OHtJOaGvD7weGAiQmpNzICbjeKwkKMElBGBtkFBRAOJ8MKBdhsIAhwcgL7+3BxkfSVStBqyZZ0lEiQUCpF86Z6e6GqCiwW0On4Q4kEcQkoEmEfeHg7ODcHnZ1i8RaL1IvH4ehI9ROEJOjgQPUlEhGKNZpkMBgUIQB2O6ysQE5O0t/c5HR7W3gnmailRejW63lRWYkB4OxMvNaVdnZgeBi6uiAtTextY4PPHg/bEhDwKxLh9eoqH4xGsqJRKCuDUAjW18VrGQwQi4FMBrOz7Gxt8fLqsORlW618mpmhIRDAW1JCjt0ObW1iF+mXyVAIlpcJxuM86e8nmhIEUF3Nx6UllgIBPFotpWo1uXI5yliM03CYb9Ho/fdW6/Hb2+dSfiMmE1HgVSoPjlPu3vUf/ZN+A9gK032hAGjcAAAAAElFTkSuQmCC" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.33333333,9.00000000)"></image></svg>
+                                    Legend - 3
+                                </li>
+                                <li>
+                                    <svg overflow="hidden" width="30" height="17.333333333333332" style="touch-action: none;"><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-9" y="-9" width="17.333333333333332" height="17.333333333333332" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAhVJREFUOI2t1Ftoz2Ecx/GXsf1saGEOY+VUDlEuaCKbK5vDlEOZ2cVGKCncaqW4Ue7ElFpqLZlcmFKElJxnZTeUJlIik7/YHJ6/Ni5+P4e//VuU793zfL+f9/N9Ps+3Z5j/FMMGyU1ZybrFUVSSH0L0Jop6WkJ49Io29P4NKH8PB6opL2XB0BDimhDs5+0Fas/Qeo7mwUCjDtOym5UReSmcxjbkxvmx1awoY3YxM4/TkBV0kMa9rLlLThHGYiGuYhS+oAKTmNpAXZpnTTRlgDZEUWVdCJW55IzEU1xPhEOTwo9IoxslTF5NfROt6P0JqgyhvoTxz/Eed7APeZie1NxP4OkYpILSOmqbOfETVMLMZkzAMixNOhny29W34wbmJ+sCchdRmgEazuh6PMSpxODfIfAJnQiYiHkoZHSGR/3096ALm5BjYBRgF24j+qXrywD18voqM/LFrzQXs7J0dARbEwv68DaKXgrhF6g7im7VhLBkJC5jGr4l1+tHB14ktR1YFdvQ0xXCsYyOdoTQUMzGKqZ8RnsirBKPcKV4rtYk4DQecK0xdiNjIL/2srOds+MYMQcfxGOwXvxauZiBr2jjyWM2/xBnTHYNF9uojWjKo6gM91CMjXiXdHmTzj4qDsW2DQTBWs5f4colGgspL2DyPfLS9Hzg6acxY07WpFJH/9Rl/UaWxydtyZaTSmXdHuw/+qf4Dk05mgHHYTepAAAAAElFTkSuQmCC" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.33333333,9.00000000)"></image></svg>
+                                    Legend - 4
+                                </li>
+                                <li>
+                                    <svg overflow="hidden" width="30" height="17.333333333333332" style="touch-action: none;"><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-9" y="-9" width="17.333333333333332" height="17.333333333333332" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAsZJREFUOI2t1FtI01EcB/Dv7vvv8ndb6ryVSSoqUVo5LzgF000tSy00GzF9SOmhG0UvUpgQQg+9mEEwMpFgJaV2wYmmRRkp0cUHRQ0tEtcyp2xz7fpfD+Hov+Yo6Pd0OL9zPr9z47Dxn4IdIhefXlpcmZ6TEccmCJ5ladn6ouv+pNFo7AVg+xuIqDzdcLmw5mB+qiJjN5PF9I/RXjq3/OrxgGbo7iP9WM+TzlCQuPHqxa6qU8dLOTwu948KQmLT3pqKkp3K7JQ70RHJfTduNwWFjrVcaD98prGcxWEzQ2wZ4TFRWzVNZ7Uul2O+X6fX0aDcQ8XqMm21eh3xeCi43V4QBGcDTB6bva+krl+n1wOw+aFMtapOviUuEgCMRgveTCzC4fZCIuSgMD8JLBaDBvl8QKaqQFGordYMd9676YfkcTHJAGCxOMDns1GuTgEAmFfsGBiZQZEyEVweCz4K+LJghkQiAEkSnLSsdAUN4vL5UgAgSb6/IkX5IJMKUJCTgAeGKZACDhxuCkV5Cf5x4jCplHZGFOWj1ttmsx3PXn+Gdc2FpC0S5GTGo+bAdlitDojFfDB+3yXl9dIgh81mArDNZnPC4/GiqiwVAGD6asHQ8xkUKhP9qzCZrCAIDkRCLlaXzYs0aPXb99EfNnuuUCiASMTzF5RHkcgiOOgZmIJcSsBsdSFvz2aQJB9zE1PWldn56zToWsP5Jll0ZHXuflV84FWTYQQqS9NgNtshkwnAYjLgdrow/e7DsL69Y5YGAXC7bI4Tk+Nvu9MUu4SBGIvJQET4r26v24PRh4aPn6ZNR9fztJfdUtvQ39zboRkzjOh2KLPDCSER6GFpwYiJl+Pv3V67qru11R4UAoDmivq+tkH94JjhabsoTJzPFwhjmSwG1+PyWNcsljmn3XnrSm1jW+C8oN/IyeIjdgD1wXIbRaj/6J/iJxNi+WSRwv3LAAAAAElFTkSuQmCC" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.33333333,9.00000000)"></image></svg>
+                                    Legend - 5
+                                </li>
+                            </ul>
+                        </div>
+
+
+                        <div class="cell">
+                            <label for="changeGradient">
+                                <input type="checkbox" name="changeGradient" value="changeGradient" id="changeGradient" ng-click="changeGradient()">
+                                <span class="square"></span>
+                            </label>
+                            <span ng-click="showCellContent2 = !showCellContent2">Change gradient</span>
+                        </div>
+                        <div class="cell-content" ng-show="showCellContent2">
+                            <ul>
+                                <li>
+                                    <svg overflow="hidden" width="30" height="14.666666666666666" style="touch-action: none;"><defs></defs><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-7" y="-7" width="14.666666666666666" height="14.666666666666666" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAGxJREFUKJFjYWBgYGBnZ/dgIBH8/PnzDAuUsT3LleE3KxPDf2I07rjEwPLgHbs3C0ygLZqBlZ+TOFsL5jH8mnGAgYGFoEo8YFTzCNP86Tvxmn7/Y2BE0SyXSZKlrOzsCM2MJGllYGD4+fMnAwDabhoYbW+mmAAAAABJRU5ErkJggg==" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,14.66666667,7.00000000)"></image></svg>
+                                    Legend - 1
+                                </li>
+                                <li>
+                                    <svg overflow="hidden" width="30" height="16" style="touch-action: none;"><defs></defs><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-8" y="-8" width="16" height="16" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAHlJREFUOI1jYaAQsDAwMDCo1DHMZ+dgECNFI4cIw/mzaQw1LAwMDAx3mhgShNwZGL6yEKf55zkGBvViBlUGBqgBDAwMDHLhDAzsXMQZcAGJTaSduMGoAaMGoBrwnYHhJ5GauP9gMeBCNmk2i7qiGsBImnYGhpslEBoA2B8Rg9H1Y44AAAAASUVORK5CYII=" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.00000000,8.00000000)"></image></svg>
+                                    Legend - 2
+                                </li>
+                                <li>
+                                    <svg overflow="hidden" width="30" height="14.666666666666666" style="touch-action: none;"><defs></defs><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-7" y="-7" width="14.666666666666666" height="14.666666666666666" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAGpJREFUKJFjYWBgYGBnZ/dgIBH8/PnzDAuUsZ1BPuE3AwPLf6J0vjjAws7+2JsFLmBWycrAxkuctUfqfjG8WMzAQlglbjCqeaRp/vOFBG1/GFE1rzcmxVJWBnZ2uGZGUnQyMDAw/Pz5kwEA7OsYtFeSBPIAAAAASUVORK5CYII=" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,14.66666667,7.00000000)"></image></svg>
+                                    Legend - 3
+                                </li>
+                                <li>
+                                    <svg overflow="hidden" width="30" height="14.666666666666666" style="touch-action: none;"><defs></defs><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-7" y="-7" width="14.666666666666666" height="14.666666666666666" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAHFJREFUKJFjYWBgYGBnZ/dgIBH8/PnzDAuUsT2UIfo3MwPLf2I0Hmc4wPKC/YU3C0wgk6GYlYeBjyhb+xgYfq1nWMHAQlgpbjCqeYRp/sbwhWhNfxn+MKJo9mGwI8VSVnYGdrhmRlJ0MjAwMPz8+ZMBAFnXGZgzD9RtAAAAAElFTkSuQmCC" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,14.66666667,7.00000000)"></image></svg>
+                                    Legend - 4
+                                </li>
+                                <li>
+                                    <svg overflow="hidden" width="30" height="14.666666666666666" style="touch-action: none;"><defs></defs><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-7" y="-7" width="14.666666666666666" height="14.666666666666666" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAGZJREFUKJFjYWBgYGBnZ/dgIBH8/PnzDAuUsT2LgeE3KwPDf2I07mBgYHnAzu7NAhNoY2Bg5SfS1gIGhl8zGBgYWAiqxANGNY8wzZ9I0PSbgYERRbMcaZaysiNpZiRNLwPDz58/GQAZfxPxMaBR3wAAAABJRU5ErkJggg==" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,14.66666667,7.00000000)"></image></svg>
+                                    Legend - 5
+                                </li>
+                            </ul>
+                        </div>
+
+
+                        <div class="cell">
+                            <label for="changeRadius">
+                                <input type="checkbox" name="changeRadius" value="changeRadius" id="changeRadius" ng-click="changeRadius()">
+                                <span class="square"></span>
+                            </label>
+                            <span ng-click="showCellContent3 = !showCellContent3">Change radius</span>
+                        </div>
+                        <div class="cell-content" ng-show="showCellContent3">
+                            <ul>
+                                <li>
+                                    <svg overflow="hidden" width="30" height="17.333333333333332" style="touch-action: none;"><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-9" y="-9" width="17.333333333333332" height="17.333333333333332" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAoJJREFUOI1jYaASYMEjJ2vuLhkjIsFty/CHge8fA8OzC/vubHj+nGE9AwPDd2IM4vSNVZl97+67UK9IHVYRcR7GRRNOMCSVWDFIyfMEXjn9cjq3AEPmvtXPl+EziN8hUPKCgb2cXM0MLyYOLjaGD2+/MQiJcDNYuCgyWLgosjx78IFvQvWBBaGZ6nqrp9+swGqQZ6zKTkcfdXn3ME1GXP6VUhBgaJjhwdqQtqM4Ktv4/LKpZ1eiGOTkL+/LxcVs7BqijtMQGODi5WDIa7VnmVS9ZwYDA8MaBgaGv3CDRGR4GgIT9FmYmJgImcPAwMDAIKMkyCCpIMgfXSgStLT/7Gq4Qc/vvdOUUxUkyhAYMHNQZLxy6lkEAwMDwqA7t99xdBTsYWBC89ivn38ZTu5/zFCXtBnDoHevPjGoG8nJMzAghZGcotCf7AZbVk5uNhTFH999Z/jzex9DUZczhkFnjzxmuHv11XcUgzQNxF/++f1XRkCEC1U1IwMDCxsrA4Y4AwPDm2efGXj5Oc+gGCSjJLDq+J6HRbIqwlhCAxN8+fidYefam//dnIS6UAxqyTxQHpisnnnvmhynkpYIXkP+//vHsH7eJQa3YM3d7dn7nqMYxMDA8MfcRSV4YsX+rbltDowqOqJYDfnz+y/DpsVXGN68+PyORfKCH0wcJWVXRG7d3r3GN3hB79GV6nqSrFZuSgzsnCwM//4yMLx79Y3hwY3XDGvmnGdQ0RG7p2vFZVocwPATq0EMDAwMpSGb17ev9hb69fXX3I2LLnpcPP6I99Gdr4xtOVv/aplIP3MO0uwoCtw8DV0f1mKkMnTrFwYGhnBksd2rHzLsXv0Qq3dxGkQOAADNqM91qkxpQQAAAABJRU5ErkJggg==" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.33333333,9.00000000)"></image></svg>
+                                    Legend - 1
+                                </li>
+                                <li>
+                                    <svg overflow="hidden" width="30" height="17.333333333333332" style="touch-action: none;"><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-9" y="-9" width="17.333333333333332" height="17.333333333333332" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAo5JREFUOI2t1F1IU2EYB/D/zjnbzvEDU0fLdClYkl7oIjZtoBeTaVpBM0lsyBZB0oXV/SCWJEWEN5uBMCoRYSWkRjBL8cYUplAhJIijZk1HmTh0fuxs56yLdVbHLSnouXrej+f3vufh8FL4T0Hts1bYoFYbT6nVBQxFyVc3Njb7JyfnA4HAMIDQ30DMDaPxdoteX6MtLT1JEkRizy2zee3l9LTp6fi4a8jj6dsPyrzf3t5/vampQS6VygCABQUZogCAdIbJbamtPV1dUXE8b2Cg5OHIiDUl1NnW1nOzufmclCQJAFiRHMB3Ih3l3LLotMMKRZHVZDKzLPvJ6XY7RdAFna7e3NhYLyAAMEaq8FkiT4J+YvlnqqosTrfbBSCUgOo1GssRpfKgMF4icmEhFQCAKuooDFFvElan0WjNer2pb2KiNwEVKJUlQs6BwAPq2K8CUoXXMcDAibE0mpZWlpVpRRAtk2UL+SypgkPCiE+nVHiLXZzg/KL5rMzMbFGPeJ7nhXyIPJT0GQBwjyqCi/ND8tscD3AiKLS7+xVAMQA833MbIZ5BiscSOdJi4XgLeB5rweCKCPoWDE6FdnZ0GQyD2lgYXgmdBFWChzwWSYw/+Hybi+vrDhF0tbvbmpeTc/GsTld4hVtGL1WcBN2J+kEi3oFwJIJ3CwsTPS7XoggCEAmx7LWZ+flBbRnSZxHDEyofr0DDgDAs0RVouaX4Ro7Di6kp74LPd0koFv3ZrZ2d7mGbzTTq8Tiry3cUDuZL0q38q6t4Mzf3notE6u4ODm6nhADgvM02Mma3j416PD1ZGRk1aTSdTxKEjI1GNze2tj5uh8OPWru67HvrUj4jho6ObQCXU639KfZ7j/4pfgAE4uLCJ5RjkwAAAABJRU5ErkJggg==" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.33333333,9.00000000)"></image></svg>
+                                    Legend - 2
+                                </li>
+                                <li>
+                                    <svg overflow="hidden" width="30" height="17.333333333333332" style="touch-action: none;"><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-9" y="-9" width="17.333333333333332" height="17.333333333333332" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAmxJREFUOI2tlE9I2mEcxj9paplDmjGQAg+DYKcOA6OgDpFzroJWtHBBtg7BgvRUYUG0LoGXjM2gkoEFUe5Qq2hSsFMjKCIvDaLYYMj6RwUmxs+l7fCr7NckNthzenmf5/3wfR9e3nT+k9Lv8AwWC8+LilR5mZmC6vBQdTo+Lnzd3WUGiPwNKNPh4E19PaVGI4/lcuEyI9DTw9H8PA1TU0xOT+O7C3TP5WK8sZFne3so5HKpqVaj0+l46nbzSK8nf2iI7pSgvj48zc1UtbYiC4VgcRGyspJ+MAgmE7hcGJxObLEY371evBJQba3KbLMJ5tFRZH6/uLewAHV14vr8HAYHxXVHBxQXk1tRQZPXyyQQuQaZzUKTSsUDpzM5QXs7lJeDRgNra+C70crYGAwMYLTZaPD5GL4G5eWR/+OHtJOaGvD7weGAiQmpNzICbjeKwkKMElBGBtkFBRAOJ8MKBdhsIAhwcgL7+3BxkfSVStBqyZZ0lEiQUCpF86Z6e6GqCiwW0On4Q4kEcQkoEmEfeHg7ODcHnZ1i8RaL1IvH4ehI9ROEJOjgQPUlEhGKNZpkMBgUIQB2O6ysQE5O0t/c5HR7W3gnmailRejW63lRWYkB4OxMvNaVdnZgeBi6uiAtTextY4PPHg/bEhDwKxLh9eoqH4xGsqJRKCuDUAjW18VrGQwQi4FMBrOz7Gxt8fLqsORlW618mpmhIRDAW1JCjt0ObW1iF+mXyVAIlpcJxuM86e8nmhIEUF3Nx6UllgIBPFotpWo1uXI5yliM03CYb9Ho/fdW6/Hb2+dSfiMmE1HgVSoPjlPu3vUf/ZN+A9gK032hAGjcAAAAAElFTkSuQmCC" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.33333333,9.00000000)"></image></svg>
+                                    Legend - 3
+                                </li>
+                                <li>
+                                    <svg overflow="hidden" width="30" height="17.333333333333332" style="touch-action: none;"><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-9" y="-9" width="17.333333333333332" height="17.333333333333332" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAhVJREFUOI2t1Ftoz2Ecx/GXsf1saGEOY+VUDlEuaCKbK5vDlEOZ2cVGKCncaqW4Ue7ElFpqLZlcmFKElJxnZTeUJlIik7/YHJ6/Ni5+P4e//VuU793zfL+f9/N9Ps+3Z5j/FMMGyU1ZybrFUVSSH0L0Jop6WkJ49Io29P4NKH8PB6opL2XB0BDimhDs5+0Fas/Qeo7mwUCjDtOym5UReSmcxjbkxvmx1awoY3YxM4/TkBV0kMa9rLlLThHGYiGuYhS+oAKTmNpAXZpnTTRlgDZEUWVdCJW55IzEU1xPhEOTwo9IoxslTF5NfROt6P0JqgyhvoTxz/Eed7APeZie1NxP4OkYpILSOmqbOfETVMLMZkzAMixNOhny29W34wbmJ+sCchdRmgEazuh6PMSpxODfIfAJnQiYiHkoZHSGR/3096ALm5BjYBRgF24j+qXrywD18voqM/LFrzQXs7J0dARbEwv68DaKXgrhF6g7im7VhLBkJC5jGr4l1+tHB14ktR1YFdvQ0xXCsYyOdoTQUMzGKqZ8RnsirBKPcKV4rtYk4DQecK0xdiNjIL/2srOds+MYMQcfxGOwXvxauZiBr2jjyWM2/xBnTHYNF9uojWjKo6gM91CMjXiXdHmTzj4qDsW2DQTBWs5f4colGgspL2DyPfLS9Hzg6acxY07WpFJH/9Rl/UaWxydtyZaTSmXdHuw/+qf4Dk05mgHHYTepAAAAAElFTkSuQmCC" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.33333333,9.00000000)"></image></svg>
+                                    Legend - 4
+                                </li>
+                                <li>
+                                    <svg overflow="hidden" width="30" height="17.333333333333332" style="touch-action: none;"><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-9" y="-9" width="17.333333333333332" height="17.333333333333332" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAsZJREFUOI2t1FtI01EcB/Dv7vvv8ndb6ryVSSoqUVo5LzgF000tSy00GzF9SOmhG0UvUpgQQg+9mEEwMpFgJaV2wYmmRRkp0cUHRQ0tEtcyp2xz7fpfD+Hov+Yo6Pd0OL9zPr9z47Dxn4IdIhefXlpcmZ6TEccmCJ5ladn6ouv+pNFo7AVg+xuIqDzdcLmw5mB+qiJjN5PF9I/RXjq3/OrxgGbo7iP9WM+TzlCQuPHqxa6qU8dLOTwu948KQmLT3pqKkp3K7JQ70RHJfTduNwWFjrVcaD98prGcxWEzQ2wZ4TFRWzVNZ7Uul2O+X6fX0aDcQ8XqMm21eh3xeCi43V4QBGcDTB6bva+krl+n1wOw+aFMtapOviUuEgCMRgveTCzC4fZCIuSgMD8JLBaDBvl8QKaqQFGordYMd9676YfkcTHJAGCxOMDns1GuTgEAmFfsGBiZQZEyEVweCz4K+LJghkQiAEkSnLSsdAUN4vL5UgAgSb6/IkX5IJMKUJCTgAeGKZACDhxuCkV5Cf5x4jCplHZGFOWj1ttmsx3PXn+Gdc2FpC0S5GTGo+bAdlitDojFfDB+3yXl9dIgh81mArDNZnPC4/GiqiwVAGD6asHQ8xkUKhP9qzCZrCAIDkRCLlaXzYs0aPXb99EfNnuuUCiASMTzF5RHkcgiOOgZmIJcSsBsdSFvz2aQJB9zE1PWldn56zToWsP5Jll0ZHXuflV84FWTYQQqS9NgNtshkwnAYjLgdrow/e7DsL69Y5YGAXC7bI4Tk+Nvu9MUu4SBGIvJQET4r26v24PRh4aPn6ZNR9fztJfdUtvQ39zboRkzjOh2KLPDCSER6GFpwYiJl+Pv3V67qru11R4UAoDmivq+tkH94JjhabsoTJzPFwhjmSwG1+PyWNcsljmn3XnrSm1jW+C8oN/IyeIjdgD1wXIbRaj/6J/iJxNi+WSRwv3LAAAAAElFTkSuQmCC" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.33333333,9.00000000)"></image></svg>
+                                    Legend - 5
+                                </li>
+                            </ul>
+                        </div>
+
+
+                        <div class="cell">
+                            <label for="changeOpacity">
+                                <input type="checkbox" name="changeOpacity" value="changeOpacity" id="changeOpacity" ng-click="changeOpacity()">
+                                <span class="square"></span>
+                            </label>
+                            <span ng-click="showCellContent4 = !showCellContent4">Change opacity</span>
+                        </div>
+                        <div class="cell-content" ng-show="showCellContent4">
+                            <ul>
+                                <li>
+                                    <svg overflow="hidden" width="30" height="14.666666666666666" style="touch-action: none;"><defs></defs><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-7" y="-7" width="14.666666666666666" height="14.666666666666666" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAGxJREFUKJFjYWBgYGBnZ/dgIBH8/PnzDAuUsT3LleE3KxPDf2I07rjEwPLgHbs3C0ygLZqBlZ+TOFsL5jH8mnGAgYGFoEo8YFTzCNP86Tvxmn7/Y2BE0SyXSZKlrOzsCM2MJGllYGD4+fMnAwDabhoYbW+mmAAAAABJRU5ErkJggg==" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,14.66666667,7.00000000)"></image></svg>
+                                    Legend - 1
+                                </li>
+                                <li>
+                                    <svg overflow="hidden" width="30" height="16" style="touch-action: none;"><defs></defs><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-8" y="-8" width="16" height="16" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAHlJREFUOI1jYaAQsDAwMDCo1DHMZ+dgECNFI4cIw/mzaQw1LAwMDAx3mhgShNwZGL6yEKf55zkGBvViBlUGBqgBDAwMDHLhDAzsXMQZcAGJTaSduMGoAaMGoBrwnYHhJ5GauP9gMeBCNmk2i7qiGsBImnYGhpslEBoA2B8Rg9H1Y44AAAAASUVORK5CYII=" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.00000000,8.00000000)"></image></svg>
+                                    Legend - 2
+                                </li>
+                                <li>
+                                    <svg overflow="hidden" width="30" height="14.666666666666666" style="touch-action: none;"><defs></defs><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-7" y="-7" width="14.666666666666666" height="14.666666666666666" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAGpJREFUKJFjYWBgYGBnZ/dgIBH8/PnzDAuUsZ1BPuE3AwPLf6J0vjjAws7+2JsFLmBWycrAxkuctUfqfjG8WMzAQlglbjCqeaRp/vOFBG1/GFE1rzcmxVJWBnZ2uGZGUnQyMDAw/Pz5kwEA7OsYtFeSBPIAAAAASUVORK5CYII=" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,14.66666667,7.00000000)"></image></svg>
+                                    Legend - 3
+                                </li>
+                                <li>
+                                    <svg overflow="hidden" width="30" height="14.666666666666666" style="touch-action: none;"><defs></defs><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-7" y="-7" width="14.666666666666666" height="14.666666666666666" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAHFJREFUKJFjYWBgYGBnZ/dgIBH8/PnzDAuUsT2UIfo3MwPLf2I0Hmc4wPKC/YU3C0wgk6GYlYeBjyhb+xgYfq1nWMHAQlgpbjCqeYRp/sbwhWhNfxn+MKJo9mGwI8VSVnYGdrhmRlJ0MjAwMPz8+ZMBAFnXGZgzD9RtAAAAAElFTkSuQmCC" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,14.66666667,7.00000000)"></image></svg>
+                                    Legend - 4
+                                </li>
+                                <li>
+                                    <svg overflow="hidden" width="30" height="14.666666666666666" style="touch-action: none;"><defs></defs><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-7" y="-7" width="14.666666666666666" height="14.666666666666666" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAGZJREFUKJFjYWBgYGBnZ/dgIBH8/PnzDAuUsT2LgeE3KwPDf2I07mBgYHnAzu7NAhNoY2Bg5SfS1gIGhl8zGBgYWAiqxANGNY8wzZ9I0PSbgYERRbMcaZaysiNpZiRNLwPDz58/GQAZfxPxMaBR3wAAAABJRU5ErkJggg==" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,14.66666667,7.00000000)"></image></svg>
+                                    Legend - 5
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div ng-show="lcTab == 3">
+
+                    <h4>Legend</h4>
+
+                    <h5>Subheading</h5>
+                    <ul>
+                        <li>
+                            <svg overflow="hidden" width="30" height="17.333333333333332" style="touch-action: none;"><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-9" y="-9" width="17.333333333333332" height="17.333333333333332" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAoJJREFUOI1jYaASYMEjJ2vuLhkjIsFty/CHge8fA8OzC/vubHj+nGE9AwPDd2IM4vSNVZl97+67UK9IHVYRcR7GRRNOMCSVWDFIyfMEXjn9cjq3AEPmvtXPl+EziN8hUPKCgb2cXM0MLyYOLjaGD2+/MQiJcDNYuCgyWLgosjx78IFvQvWBBaGZ6nqrp9+swGqQZ6zKTkcfdXn3ME1GXP6VUhBgaJjhwdqQtqM4Ktv4/LKpZ1eiGOTkL+/LxcVs7BqijtMQGODi5WDIa7VnmVS9ZwYDA8MaBgaGv3CDRGR4GgIT9FmYmJgImcPAwMDAIKMkyCCpIMgfXSgStLT/7Gq4Qc/vvdOUUxUkyhAYMHNQZLxy6lkEAwMDwqA7t99xdBTsYWBC89ivn38ZTu5/zFCXtBnDoHevPjGoG8nJMzAghZGcotCf7AZbVk5uNhTFH999Z/jzex9DUZczhkFnjzxmuHv11XcUgzQNxF/++f1XRkCEC1U1IwMDCxsrA4Y4AwPDm2efGXj5Oc+gGCSjJLDq+J6HRbIqwlhCAxN8+fidYefam//dnIS6UAxqyTxQHpisnnnvmhynkpYIXkP+//vHsH7eJQa3YM3d7dn7nqMYxMDA8MfcRSV4YsX+rbltDowqOqJYDfnz+y/DpsVXGN68+PyORfKCH0wcJWVXRG7d3r3GN3hB79GV6nqSrFZuSgzsnCwM//4yMLx79Y3hwY3XDGvmnGdQ0RG7p2vFZVocwPATq0EMDAwMpSGb17ev9hb69fXX3I2LLnpcPP6I99Gdr4xtOVv/aplIP3MO0uwoCtw8DV0f1mKkMnTrFwYGhnBksd2rHzLsXv0Qq3dxGkQOAADNqM91qkxpQQAAAABJRU5ErkJggg==" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.33333333,9.00000000)"></image></svg>
+                            Legend - 1
+                        </li>
+                        <li>
+                            <svg overflow="hidden" width="30" height="17.333333333333332" style="touch-action: none;"><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-9" y="-9" width="17.333333333333332" height="17.333333333333332" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAo5JREFUOI2t1F1IU2EYB/D/zjnbzvEDU0fLdClYkl7oIjZtoBeTaVpBM0lsyBZB0oXV/SCWJEWEN5uBMCoRYSWkRjBL8cYUplAhJIijZk1HmTh0fuxs56yLdVbHLSnouXrej+f3vufh8FL4T0Hts1bYoFYbT6nVBQxFyVc3Njb7JyfnA4HAMIDQ30DMDaPxdoteX6MtLT1JEkRizy2zee3l9LTp6fi4a8jj6dsPyrzf3t5/vampQS6VygCABQUZogCAdIbJbamtPV1dUXE8b2Cg5OHIiDUl1NnW1nOzufmclCQJAFiRHMB3Ih3l3LLotMMKRZHVZDKzLPvJ6XY7RdAFna7e3NhYLyAAMEaq8FkiT4J+YvlnqqosTrfbBSCUgOo1GssRpfKgMF4icmEhFQCAKuooDFFvElan0WjNer2pb2KiNwEVKJUlQs6BwAPq2K8CUoXXMcDAibE0mpZWlpVpRRAtk2UL+SypgkPCiE+nVHiLXZzg/KL5rMzMbFGPeJ7nhXyIPJT0GQBwjyqCi/ND8tscD3AiKLS7+xVAMQA833MbIZ5BiscSOdJi4XgLeB5rweCKCPoWDE6FdnZ0GQyD2lgYXgmdBFWChzwWSYw/+Hybi+vrDhF0tbvbmpeTc/GsTld4hVtGL1WcBN2J+kEi3oFwJIJ3CwsTPS7XoggCEAmx7LWZ+flBbRnSZxHDEyofr0DDgDAs0RVouaX4Ro7Di6kp74LPd0koFv3ZrZ2d7mGbzTTq8Tiry3cUDuZL0q38q6t4Mzf3notE6u4ODm6nhADgvM02Mma3j416PD1ZGRk1aTSdTxKEjI1GNze2tj5uh8OPWru67HvrUj4jho6ObQCXU639KfZ7j/4pfgAE4uLCJ5RjkwAAAABJRU5ErkJggg==" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.33333333,9.00000000)"></image></svg>
+                            Legend - 2
+                        </li>
+                        <li>
+                            <svg overflow="hidden" width="30" height="17.333333333333332" style="touch-action: none;"><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-9" y="-9" width="17.333333333333332" height="17.333333333333332" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAmxJREFUOI2tlE9I2mEcxj9paplDmjGQAg+DYKcOA6OgDpFzroJWtHBBtg7BgvRUYUG0LoGXjM2gkoEFUe5Qq2hSsFMjKCIvDaLYYMj6RwUmxs+l7fCr7NckNthzenmf5/3wfR9e3nT+k9Lv8AwWC8+LilR5mZmC6vBQdTo+Lnzd3WUGiPwNKNPh4E19PaVGI4/lcuEyI9DTw9H8PA1TU0xOT+O7C3TP5WK8sZFne3so5HKpqVaj0+l46nbzSK8nf2iI7pSgvj48zc1UtbYiC4VgcRGyspJ+MAgmE7hcGJxObLEY371evBJQba3KbLMJ5tFRZH6/uLewAHV14vr8HAYHxXVHBxQXk1tRQZPXyyQQuQaZzUKTSsUDpzM5QXs7lJeDRgNra+C70crYGAwMYLTZaPD5GL4G5eWR/+OHtJOaGvD7weGAiQmpNzICbjeKwkKMElBGBtkFBRAOJ8MKBdhsIAhwcgL7+3BxkfSVStBqyZZ0lEiQUCpF86Z6e6GqCiwW0On4Q4kEcQkoEmEfeHg7ODcHnZ1i8RaL1IvH4ehI9ROEJOjgQPUlEhGKNZpkMBgUIQB2O6ysQE5O0t/c5HR7W3gnmailRejW63lRWYkB4OxMvNaVdnZgeBi6uiAtTextY4PPHg/bEhDwKxLh9eoqH4xGsqJRKCuDUAjW18VrGQwQi4FMBrOz7Gxt8fLqsORlW618mpmhIRDAW1JCjt0ObW1iF+mXyVAIlpcJxuM86e8nmhIEUF3Nx6UllgIBPFotpWo1uXI5yliM03CYb9Ho/fdW6/Hb2+dSfiMmE1HgVSoPjlPu3vUf/ZN+A9gK032hAGjcAAAAAElFTkSuQmCC" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.33333333,9.00000000)"></image></svg>
+                            Legend - 3
+                        </li>
+                        <li>
+                            <svg overflow="hidden" width="30" height="17.333333333333332" style="touch-action: none;"><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-9" y="-9" width="17.333333333333332" height="17.333333333333332" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAhVJREFUOI2t1Ftoz2Ecx/GXsf1saGEOY+VUDlEuaCKbK5vDlEOZ2cVGKCncaqW4Ue7ElFpqLZlcmFKElJxnZTeUJlIik7/YHJ6/Ni5+P4e//VuU793zfL+f9/N9Ps+3Z5j/FMMGyU1ZybrFUVSSH0L0Jop6WkJ49Io29P4NKH8PB6opL2XB0BDimhDs5+0Fas/Qeo7mwUCjDtOym5UReSmcxjbkxvmx1awoY3YxM4/TkBV0kMa9rLlLThHGYiGuYhS+oAKTmNpAXZpnTTRlgDZEUWVdCJW55IzEU1xPhEOTwo9IoxslTF5NfROt6P0JqgyhvoTxz/Eed7APeZie1NxP4OkYpILSOmqbOfETVMLMZkzAMixNOhny29W34wbmJ+sCchdRmgEazuh6PMSpxODfIfAJnQiYiHkoZHSGR/3096ALm5BjYBRgF24j+qXrywD18voqM/LFrzQXs7J0dARbEwv68DaKXgrhF6g7im7VhLBkJC5jGr4l1+tHB14ktR1YFdvQ0xXCsYyOdoTQUMzGKqZ8RnsirBKPcKV4rtYk4DQecK0xdiNjIL/2srOds+MYMQcfxGOwXvxauZiBr2jjyWM2/xBnTHYNF9uojWjKo6gM91CMjXiXdHmTzj4qDsW2DQTBWs5f4colGgspL2DyPfLS9Hzg6acxY07WpFJH/9Rl/UaWxydtyZaTSmXdHuw/+qf4Dk05mgHHYTepAAAAAElFTkSuQmCC" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.33333333,9.00000000)"></image></svg>
+                            Legend - 4
+                        </li>
+                        <li>
+                            <svg overflow="hidden" width="30" height="17.333333333333332" style="touch-action: none;"><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-9" y="-9" width="17.333333333333332" height="17.333333333333332" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAsZJREFUOI2t1FtI01EcB/Dv7vvv8ndb6ryVSSoqUVo5LzgF000tSy00GzF9SOmhG0UvUpgQQg+9mEEwMpFgJaV2wYmmRRkp0cUHRQ0tEtcyp2xz7fpfD+Hov+Yo6Pd0OL9zPr9z47Dxn4IdIhefXlpcmZ6TEccmCJ5ladn6ouv+pNFo7AVg+xuIqDzdcLmw5mB+qiJjN5PF9I/RXjq3/OrxgGbo7iP9WM+TzlCQuPHqxa6qU8dLOTwu948KQmLT3pqKkp3K7JQ70RHJfTduNwWFjrVcaD98prGcxWEzQ2wZ4TFRWzVNZ7Uul2O+X6fX0aDcQ8XqMm21eh3xeCi43V4QBGcDTB6bva+krl+n1wOw+aFMtapOviUuEgCMRgveTCzC4fZCIuSgMD8JLBaDBvl8QKaqQFGordYMd9676YfkcTHJAGCxOMDns1GuTgEAmFfsGBiZQZEyEVweCz4K+LJghkQiAEkSnLSsdAUN4vL5UgAgSb6/IkX5IJMKUJCTgAeGKZACDhxuCkV5Cf5x4jCplHZGFOWj1ttmsx3PXn+Gdc2FpC0S5GTGo+bAdlitDojFfDB+3yXl9dIgh81mArDNZnPC4/GiqiwVAGD6asHQ8xkUKhP9qzCZrCAIDkRCLlaXzYs0aPXb99EfNnuuUCiASMTzF5RHkcgiOOgZmIJcSsBsdSFvz2aQJB9zE1PWldn56zToWsP5Jll0ZHXuflV84FWTYQQqS9NgNtshkwnAYjLgdrow/e7DsL69Y5YGAXC7bI4Tk+Nvu9MUu4SBGIvJQET4r26v24PRh4aPn6ZNR9fztJfdUtvQ39zboRkzjOh2KLPDCSER6GFpwYiJl+Pv3V67qru11R4UAoDmivq+tkH94JjhabsoTJzPFwhjmSwG1+PyWNcsljmn3XnrSm1jW+C8oN/IyeIjdgD1wXIbRaj/6J/iJxNi+WSRwv3LAAAAAElFTkSuQmCC" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.33333333,9.00000000)"></image></svg>
+                            Legend - 5
+                        </li>
+                    </ul>
+
+                    <h5>Subheading</h5>
+                    <ul>
+                        <li>
+                            <svg overflow="hidden" width="30" height="14.666666666666666" style="touch-action: none;"><defs></defs><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-7" y="-7" width="14.666666666666666" height="14.666666666666666" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAGxJREFUKJFjYWBgYGBnZ/dgIBH8/PnzDAuUsT3LleE3KxPDf2I07rjEwPLgHbs3C0ygLZqBlZ+TOFsL5jH8mnGAgYGFoEo8YFTzCNP86Tvxmn7/Y2BE0SyXSZKlrOzsCM2MJGllYGD4+fMnAwDabhoYbW+mmAAAAABJRU5ErkJggg==" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,14.66666667,7.00000000)"></image></svg>
+                            Legend - 1
+                        </li>
+                        <li>
+                            <svg overflow="hidden" width="30" height="16" style="touch-action: none;"><defs></defs><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-8" y="-8" width="16" height="16" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAHlJREFUOI1jYaAQsDAwMDCo1DHMZ+dgECNFI4cIw/mzaQw1LAwMDAx3mhgShNwZGL6yEKf55zkGBvViBlUGBqgBDAwMDHLhDAzsXMQZcAGJTaSduMGoAaMGoBrwnYHhJ5GauP9gMeBCNmk2i7qiGsBImnYGhpslEBoA2B8Rg9H1Y44AAAAASUVORK5CYII=" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.00000000,8.00000000)"></image></svg>
+                            Legend - 2
+                        </li>
+                        <li>
+                            <svg overflow="hidden" width="30" height="14.666666666666666" style="touch-action: none;"><defs></defs><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-7" y="-7" width="14.666666666666666" height="14.666666666666666" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAGpJREFUKJFjYWBgYGBnZ/dgIBH8/PnzDAuUsZ1BPuE3AwPLf6J0vjjAws7+2JsFLmBWycrAxkuctUfqfjG8WMzAQlglbjCqeaRp/vOFBG1/GFE1rzcmxVJWBnZ2uGZGUnQyMDAw/Pz5kwEA7OsYtFeSBPIAAAAASUVORK5CYII=" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,14.66666667,7.00000000)"></image></svg>
+                            Legend - 3
+                        </li>
+                        <li>
+                            <svg overflow="hidden" width="30" height="14.666666666666666" style="touch-action: none;"><defs></defs><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-7" y="-7" width="14.666666666666666" height="14.666666666666666" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAHFJREFUKJFjYWBgYGBnZ/dgIBH8/PnzDAuUsT2UIfo3MwPLf2I0Hmc4wPKC/YU3C0wgk6GYlYeBjyhb+xgYfq1nWMHAQlgpbjCqeYRp/sbwhWhNfxn+MKJo9mGwI8VSVnYGdrhmRlJ0MjAwMPz8+ZMBAFnXGZgzD9RtAAAAAElFTkSuQmCC" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,14.66666667,7.00000000)"></image></svg>
+                            Legend - 4
+                        </li>
+                        <li>
+                            <svg overflow="hidden" width="30" height="14.666666666666666" style="touch-action: none;"><defs></defs><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-7" y="-7" width="14.666666666666666" height="14.666666666666666" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAGZJREFUKJFjYWBgYGBnZ/dgIBH8/PnzDAuUsT2LgeE3KwPDf2I07mBgYHnAzu7NAhNoY2Bg5SfS1gIGhl8zGBgYWAiqxANGNY8wzZ9I0PSbgYERRbMcaZaysiNpZiRNLwPDz58/GQAZfxPxMaBR3wAAAABJRU5ErkJggg==" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,14.66666667,7.00000000)"></image></svg>
+                            Legend - 5
+                        </li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+    <leaflet lf-center="center" geojson="geojson" width="100%" height="480px"></leaflet>
+    <h1>GeoJSON update example</h1>
+    <button ng-click="updateGeojson()">update GeoJSON</button>
+    <!--<div class="right-col h-100">
+        <ng-map id="map" zoom="10" center="36.782551,-119.445368" map-type-id="">
+            <heatmap-layer id="foo" data="taxiData"></heatmap-layer>
+        </ng-map>
+    </div>-->
+
+    <!--<esri-scene-view map="map" view-options="{scale: 50000000, center: [-101.17, 21.78]}">
+    </esri-scene-view>-->
+
+
+
+</div>
+
+
+<script>
+    $(document).ready(function(){
+        $('.hamburger').click(function(){
+
+            if ($(':animated').length) {
+                return false;
+            }
+
+            if ($(this).hasClass("open")){
+
+                $(this).removeClass("open");
+                $(".left-col-content").fadeOut( 200 , function() {
+                    $(".left-col").animate({
+                        "width" : "0px",
+                        "padding" : "0px",
+                        "margin" : "0px"
+                    });
+                });
+
+            } else {
+
+                $(this).addClass("open");
+                $(".left-col").animate({
+                    "width" : "288px",
+                    "padding" : "15px",
+                    "margin-right" : "10px"
+                }, function(){
+                    $(".left-col-content").fadeIn( 200 );
+                });
+
+            }
+
+        });
+    });
+</script>
 </body>
 </html>
