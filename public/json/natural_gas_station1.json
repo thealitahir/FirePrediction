@@ -1,0 +1,148 @@
+{
+"type": "FeatureCollection",
+"features": [
+{
+"type": "Feature",
+"properties": {
+"OBJECTID": 1,
+"Gas_Statio": "NGS0009",
+"MSID": "MSF3007350-  1",
+"Name": "Tionesta",
+"Name_Confi": "Yes",
+"Name_Sourc": "Penwell",
+"Alias": "TIONESTA #14B",
+"Station_Ty": "COMP",
+"Owner": "PG&E",
+"Map_Owner": "PG&E",
+"Postal_Cit": "Mcarthur",
+"Zip_Code": "96056",
+"County": "Modoc",
+"State": "CA",
+"Legend": "COMP",
+"Comments": null,
+  "icon": {
+    "icon_url": "https://leafletjs.com/examples/custom-icons/leaf-green.png"
+  }
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+-121.31722257906516,
+41.64877247398391
+]
+}
+},
+{
+"type": "Feature",
+"properties": {
+"OBJECTID": 1117,
+"Gas_Statio": "NGS0235",
+"MSID": null,
+"Name": "Airport-Industrial",
+"Name_Confi": "Yes",
+"Name_Sourc": "PG&E 2000",
+"Alias": null,
+"Station_Ty": "VALVE",
+"Owner": "PG&E",
+"Map_Owner": "PG&E",
+"Postal_Cit": "Stockton",
+"Zip_Code": "95206",
+"County": "San Joaquin",
+"State": "CA",
+"Legend": "VALVE",
+"Comments": null
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+-121.2599891118388,
+37.912972264688946
+]
+}
+},
+{
+"type": "Feature",
+"properties": {
+"OBJECTID": 1118,
+"Gas_Statio": "NGS0236",
+"MSID": null,
+"Name": "Airport-French Camp",
+"Name_Confi": "Yes",
+"Name_Sourc": "PG&E 2000",
+"Alias": null,
+"Station_Ty": "VALVE",
+"Owner": "PG&E",
+"Map_Owner": "PG&E",
+"Postal_Cit": "Stockton",
+"Zip_Code": "95206",
+"County": "San Joaquin",
+"State": "CA",
+"Legend": "VALVE",
+"Comments": null
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+-121.25208135804873,
+37.87501876466887
+]
+}
+},
+{
+"type": "Feature",
+"properties": {
+"OBJECTID": 1119,
+"Gas_Statio": "NGS0234",
+"MSID": null,
+"Name": "Airport-Sonora",
+"Name_Confi": "Yes",
+"Name_Sourc": "PG&E 2000",
+"Alias": null,
+"Station_Ty": "VALVE",
+"Owner": "PG&E",
+"Map_Owner": "PG&E",
+"Postal_Cit": "Stockton",
+"Zip_Code": "95205",
+"County": "San Joaquin",
+"State": "CA",
+"Legend": "VALVE",
+"Comments": null
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+-121.27326708876694,
+37.95119730972922
+]
+}
+},
+{
+"type": "Feature",
+"properties": {
+"OBJECTID": 1120,
+"Gas_Statio": "NGS0745",
+"MSID": null,
+"Name": "Sw Portland Cement",
+"Name_Confi": "Yes",
+"Name_Sourc": "PG&E 2000",
+"Alias": null,
+"Station_Ty": "VALVE",
+"Owner": "PG&E",
+"Map_Owner": "PG&E",
+"Postal_Cit": "Victorville",
+"Zip_Code": "92394",
+"County": "San Bernardino",
+"State": "CA",
+"Legend": "VALVE",
+"Comments": null
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+-117.30543518108536,
+34.55702209511058
+]
+}
+}
+]
+}

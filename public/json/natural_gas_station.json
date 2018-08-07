@@ -20,7 +20,7 @@
 "State": "CA",
 "Legend": "COMP",
 "Comments": null,
-  "marker-color":"#00ff00"
+"iconUrl": "../images/nuclear.png"
 },
 "geometry": {
 "type": "Point",
@@ -48,7 +48,8 @@
 "County": "Shasta",
 "State": "CA",
 "Legend": "COMP",
-"Comments": null
+"Comments": null,
+"iconUrl": "../images/nuclear.png"
 },
 "geometry": {
 "type": "Point",

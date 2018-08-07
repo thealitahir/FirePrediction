@@ -53,10 +53,10 @@
 
                         <div class="cell">
                             <label for="toggleHeatmap">
-                                <input type="checkbox" name="toggleHeatmap" value="toggleHeatmap" id="toggleHeatmap" ng-click="toggleHeatmap()">
+                                <input type="checkbox" name="toggleHeatmap" ng-model="powerPlant" id="toggleHeatmap" ng-click="powerPlants()">
                                 <span class="square"></span>
                             </label>
-                            <span ng-click="showCellContent1 = !showCellContent1">Toggle Heatmap</span>
+                            <span ng-click="showCellContent1 = !showCellContent1">Power Plant</span>
                         </div>
                         <div class="cell-content" ng-show="showCellContent1">
                             <ul>
@@ -86,10 +86,10 @@
 
                         <div class="cell">
                             <label for="changeGradient">
-                                <input type="checkbox" name="changeGradient" value="changeGradient" id="changeGradient" ng-click="changeGradient()">
+                                <input type="checkbox" name="changeGradient" ng-model="transmissionLine" id="changeGradient" ng-click="transmissionLines()">
                                 <span class="square"></span>
                             </label>
-                            <span ng-click="showCellContent2 = !showCellContent2">Change gradient</span>
+                            <span ng-click="showCellContent2 = !showCellContent2">Transmission Line</span>
                         </div>
                         <div class="cell-content" ng-show="showCellContent2">
                             <ul>
@@ -119,10 +119,10 @@
 
                         <div class="cell">
                             <label for="changeRadius">
-                                <input type="checkbox" name="changeRadius" value="changeRadius" id="changeRadius" ng-click="changeRadius()">
+                                <input type="checkbox" name="changeRadius" ng-model="generators " id="changeRadius" ng-click="generators()">
                                 <span class="square"></span>
                             </label>
-                            <span ng-click="showCellContent3 = !showCellContent3">Change radius</span>
+                            <span ng-click="showCellContent3 = !showCellContent3">Generator</span>
                         </div>
                         <div class="cell-content" ng-show="showCellContent3">
                             <ul>
@@ -152,10 +152,10 @@
 
                         <div class="cell">
                             <label for="changeOpacity">
-                                <input type="checkbox" name="changeOpacity" value="changeOpacity" id="changeOpacity" ng-click="changeOpacity()">
+                                <input type="checkbox" name="changeOpacity" ng-model="heatmap" id="changeOpacity" ng-click="heatmaps()">
                                 <span class="square"></span>
                             </label>
-                            <span ng-click="showCellContent4 = !showCellContent4">Change opacity</span>
+                            <span ng-click="showCellContent4 = !showCellContent4">Heat Map</span>
                         </div>
                         <div class="cell-content" ng-show="showCellContent4">
                             <ul>
@@ -244,6 +244,10 @@
 
         </div>
 
+    </div>
+
+    <div class="right-col h-100">
+        <leaflet lf-center="center" id="map" layers="layers" geojson="geojson" width="100%" height="560px"></leaflet>
     </div>
 
     <!--<div class="right-col h-100">
