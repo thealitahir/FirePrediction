@@ -35,7 +35,7 @@ angular.module('webApp.controllers')
                 $scope.G = map;
             }
         );
-        $scope.check;
+        $scope.key;
         var weatherIcon = L.Icon.extend({
             options: {
                 iconSize:     [15, 15], // size of the icon
@@ -46,33 +46,34 @@ angular.module('webApp.controllers')
 
         $scope.powerPlants = function ()
         {
-            $scope.check = "powerPlants";
+            $scope.key = "powerPlants";
             if($scope.powerPlant)
             {
-                $http.get("/json/natural_gas_station.json").success(function(data, status) {
-                    $scope.showResourcesOnMap(data,"s");
+                $http.get("/json/natural_gas_station1.json").success(function(data, status) {
+                    $scope.showResourcesOnMap(data,$scope.key);
                 });
             }
             else
             {
-                /*$scope.geojsonLayer.clearLayers();*/
+                $scope.removeShapeLayers('feature-' + $scope.key);
             }
         }
 
         $scope.transmissionLines = function ()
         {
+            $scope.key = "transmissionLines";
             if($scope.transmissionLine)
             {
                 console.log("show");
                 $http.get("/json/natural_gas_pipelines.json").success(function(data, status) {
-                    $scope.showResourcesOnMap(data, "s");
+                    $scope.showResourcesOnMap(data, $scope.key);
                 });
             }
             else
             {
-                /*$scope.geojsonLayer.clearLayers();*/
+                $scope.removeShapeLayers('feature-' + $scope.key);
             }
-            $scope.check = "transmissionLines";
+
         }
 
         $scope.generators = function ()
@@ -110,7 +111,7 @@ angular.module('webApp.controllers')
             }
             else
             {
-                /*$scope.geojsonLayer.clearLayers();*/
+                $scope.removeShapeLayers('feature-' + $scope.key);
             }
             $scope.check = "heatmap";
         }
@@ -135,23 +136,27 @@ angular.module('webApp.controllers')
                         case 'i': icon = poststormIcon; break;
                     }*/
                     return L.marker(LatLng, {icon: icon});
+                },
+                onEachFeature: function (feature, layer) {
+                    // At this point 'layer._path' exists in the layer object
+                    // but it will return as 'undefined' so this is of no use
+                    // So the following doesn't work:
+                    layer.source_id = 'feature-' + type
                 }
-
             }).addTo($scope.G);
-            $scope.geojsonLayer.addData(json);
+            console.log($scope.G);
         }
 
-        function getJson(simp){  //Removed unneeded arguments here
-            var url = 'file' + simp + '.json';
-            map.removeLayer(geojsonLayer);
-            //geojsonLayer.clearLayers();  I don't believe this needed.
-            $.getJSON(url, function(data){
-                geojsonLayer = L.geoJson(data, {
-                    style: defaultStyle,
-                    onEachFeature: onEachFeature
-                });
-                geojsonLayer.addTo(map);
-            });
+        $scope.removeShapeLayers = function(id){
+            console.log("in removeShapeLayers");
+            console.log($scope.G._layers);
+            for(var key in $scope.G._layers){
+                console.log($scope.G._layers[key]);
+                console.log($scope.G._layers[key].source_id);
+                if($scope.G._layers[key].source_id == id) {
+                    $scope.G.removeLayer($scope.G._layers[key]);
+                }
+            }
         }
 
         /*firePredictorService.getFirePredictorValues().success(function (res) {
