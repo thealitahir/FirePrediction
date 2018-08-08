@@ -38,6 +38,40 @@ li{
   padding: 0px 10px;
 }
 
+
+/*--- Notification Box CSS
+--------------------------------------*/
+.notification{
+  position: fixed;
+  z-index: 10000000;
+  top: 14px;
+  right: 0;
+  left: 0;
+  height:0%;
+  text-align: center;
+}
+.notification-inner{
+  display: inline-block;
+  background-color: #f9edbe;
+  border: solid 1px #f0c36d;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 6px 10px;
+  font-size: 16px;
+}
+.notification-message{
+  font-size: 80%;
+  /*padding-bottom: 4px;*/
+}
+.notification strong{
+  text-transform: uppercase;
+}
+/*------------------*/
+
+
+
 /*--- Login Form
 --------------------------------------*/
 .login-block{
