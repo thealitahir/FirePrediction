@@ -214,8 +214,8 @@ li{
   margin: 5px 0px;
 }
 .left-col-tabs-content .custom-checkbox .cell{
-  margin-top: 0.75rem;
-  margin-bottom: 0.75rem;
+  margin-top: 0rem;
+  margin-bottom: 0rem;
 }
 .left-col-tabs-content .custom-checkbox .cell > span{
   cursor: pointer;
@@ -224,13 +224,60 @@ li{
   border-bottom: solid 1px #1976d2;
 }
 .left-col-tabs-content .custom-checkbox label{
-  padding-left: 1.25rem;
+  padding-left: 1.5rem;
   cursor: default;
 }
 .left-col-tabs-content .cell-content{
-  margin-left: 12px;
+  margin-left: 25px;
+}
+.left-col-tabs-content .cell-content li{
+  line-height: 26px;
 }
 /*------------------*/
+
+
+/*--- Heat-map
+--------------------------------------*/
+.heatmap-intensity{
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: 6px;
+  border-radius: 50%;
+}
+.heatmap-intensity.low{
+  background: #078c52;
+}
+.heatmap-intensity.moderate{
+  background: #0992be;
+}
+.heatmap-intensity.high{
+  background: #ffcc00;
+}
+.heatmap-intensity.very-high{
+  background: #ff9511;
+}
+.heatmap-intensity.extreme{
+  background: #dc0829;
+}
+/*------------------*/
+
+
+
+.legends li{
+  margin-bottom: 10px;
+}
+.legend-icon{
+  width: 45px;
+  text-align: center;
+  display: inline-block;
+}
+.transmission-line{
+  display: inline-block;
+  width: 30px;
+  height: 3px;
+  background: #0033ff;
+}
 
 
 /*--- Right Column
