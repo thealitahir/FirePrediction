@@ -26,7 +26,7 @@
 
 <div class="container h-100">
     <div class="row justify-content-center h-100 container-row">
-        <div class="col-4 my-auto login-block">
+        <div class="col-6 my-auto login-block">
 
             <% if (message.length > 0) { %>
             <div id="error" class="alert alert-danger" style="font-size: 15px;font-weight: 400;height: 57px;"><%= message %></div>
@@ -39,31 +39,43 @@
                     <img src="../images/numtra-login-logo.png" alt="NUMTRA" style="width: 250px;"/>
                 </div>
 
-                <div class="form-group">
-                    <label for="fname">First Name</label>
-                    <input type="fname" class="form-control" id="fname" placeholder="Enter first name" name="fname">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="fname">First Name</label>
+                            <input type="fname" class="form-control" id="fname" placeholder="Enter first name" name="fname">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="lname">Last Name</label>
+                            <input type="lname" class="form-control" id="lname" placeholder="Enter last name" name="lname">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col"> <div class="form-group">
+                            <label for="username">Email address</label>
+                            <input type="username" class="form-control" id="username" placeholder="Enter username" name="username">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="Enter Password" name="password">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="confirm_password">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirm_password" placeholder="Confirm password" name="confirm_password">
+                            <span id="confirmMessage" class="confirmMessage"></span>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="lname">Last Name</label>
-                    <input type="lname" class="form-control" id="lname" placeholder="Enter last name" name="lname">
-                </div>
-
-                <div class="form-group">
-                    <label for="username">Email address</label>
-                    <input type="username" class="form-control" id="username" placeholder="Enter username" name="username">
-                </div>
-
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="Enter Password" name="password">
-                </div>
-
-                <div class="form-group">
-                    <label for="confirm_password">Confirm Password</label>
-                    <input type="password" class="form-control" id="confirm_password" placeholder="Confirm password" name="confirm_password">
-                    <span id="confirmMessage" class="confirmMessage"></span>
-                </div>
 
                 <button type="submit" class="btn btn-primary">Submit</button>
 
