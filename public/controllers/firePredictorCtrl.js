@@ -184,6 +184,7 @@ angular.module('webApp.controllers')
                 notifyService.notify("no record for this date found");
                 return;
             }
+            $scope.layers.overlays = {};
             var data = setArray($scope.heatmap_data.latlng)
             $scope.layers.overlays = {
                 heat: {
@@ -194,13 +195,7 @@ angular.module('webApp.controllers')
                         radius: 20,
                         blur: 15,
                         source_id:'feature-' + $scope.key,
-                        gradient: {
-                            '0.20': 'Green',
-                            '0.40': 'Blue',
-                            '0.60': 'Yellow',
-                            '0.80': 'Orange',
-                            '1': 'Red'
-                        }
+                        gradient: false
                     },
                     visible: true
                 }/*,
@@ -223,11 +218,17 @@ angular.module('webApp.controllers')
 
         $scope.showResourcesOnMap = function(json,type)
         {
-            var stormIcon = new weatherIcon({iconUrl: '/images/natural-gas-icon.png'});
+            var power_plant_icon = new weatherIcon({iconUrl: '/images/pole-icon.png'});
+            var generator_icon = new weatherIcon({iconUrl: '/images/generator.png'});
             var layerPopup;
+            var icon;
+            if(type == "generators")
+                icon = generator_icon;
+            else if(type == "powerPlants")
+                icon = power_plant_icon;
             $scope.geojsonLayer = L.geoJson(json, {
                 pointToLayer: function(feature, LatLng) {
-                    return L.marker(LatLng, {icon: stormIcon});
+                    return L.marker(LatLng, {icon: icon});
                 },
                 onEachFeature: function (feature, layer) {
                     layer.on('click', function(e){
@@ -347,8 +348,15 @@ angular.module('webApp.controllers')
         {
             var newArray = []
             var outerArray = [];
+            var popLocation;
+            var popup;
             for(i = 0; i < array.length; i++)
             {
+                popLocation = new L.LatLng(array[i][0],array[i][1]);
+                popup = L.popup()
+                    .setLatLng(popLocation)
+                    .setContent('<p>Hello world!<br />This is a nice popup.</p>')
+                    .openOn(map);
                 for(j = 0; j < 100; j++)
                 {
                     newArray.push(array[i]);
