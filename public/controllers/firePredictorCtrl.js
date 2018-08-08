@@ -99,7 +99,6 @@ angular.module('webApp.controllers')
         $scope.heatmaps = function ()
         {
             $scope.key = "heatmap"
-            var flag = false;
             if($scope.heatmap)
             {
                 firePredictorService.getFirePredictorValues().success(function (res) {
@@ -147,14 +146,9 @@ angular.module('webApp.controllers')
                                         mm = "0" + mm;
                                     }
                                     yyyy = $scope.fire_predictor_values[i][outer_key]["Year"];
-                                    $scope.fire_obj.date = dd + "-" + mm + "-" + yyyy;
+                                    $scope.fire_obj.date = mm + "-" + dd + "-" + yyyy;
                                 }
                             });
-                            if($scope.date == $scope.fire_obj.date)
-                            {
-                                flag = true;
-                                $scope.heatmap_data = $scope.fire_obj;
-                            }
                             $scope.fire_array.push($scope.fire_obj);
                             $scope.fire_obj = {
                                 latlng:[],
@@ -164,46 +158,7 @@ angular.module('webApp.controllers')
                                 humidity:[]
                             };
                         }
-                        if (!flag)
-                        {
-                            notifyService.notify("No record for this date found");
-                            return;
-                        }
-                        var data = setArray($scope.heatmap_data.latlng)
-                        $scope.layers.overlays = {
-                            heat: {
-                                name: 'Heat Map',
-                                type: 'heat',
-                                data: data,
-                                layerOptions: {
-                                    radius: 20,
-                                    blur: 15,
-                                    source_id:'feature-' + $scope.key,
-                                    gradient: {
-                                        '0.20': 'Green',
-                                        '0.40': 'Blue',
-                                        '0.60': 'Yellow',
-                                        '0.80': 'Orange',
-                                        '1': 'Red'
-                                    }
-                                },
-                                visible: true
-                            }/*,
-                             onEachFeature: function (feature, layer) {
-                             layer.on('click', function(e){
-                             console.log(e);
-                             var coordinates = e.target.feature.geometry.coordinates;
-                             var swapped_coordinates = [coordinates[1], coordinates[0]];  //Swap Lat and Lng
-                             if ($scope.G) {
-                             layerPopup = L.popup()
-                             .setLatLng(swapped_coordinates)
-                             .setContent('Popup for feature #'+e.target.feature.properties.County)
-                             .openOn($scope.G);
-                             }
-                             });
-                             }*/
-                        };
-                        console.log($scope.G);
+                        $scope.showHeatmap();
                     }
                 });
             }
@@ -213,7 +168,58 @@ angular.module('webApp.controllers')
             }
         }
 
-
+        $scope.showHeatmap = function()
+        {
+            var flag = false;
+            for(i = 0; i < $scope.fire_array.length; i++)
+            {
+                if($scope.date == $scope.fire_array[i].date)
+                {
+                    flag = true;
+                    $scope.heatmap_data = $scope.fire_array[i];
+                }
+            }
+            if(!flag)
+            {
+                notifyService.notify("no record for this date found");
+                return;
+            }
+            var data = setArray($scope.heatmap_data.latlng)
+            $scope.layers.overlays = {
+                heat: {
+                    name: 'Heat Map',
+                    type: 'heat',
+                    data: data,
+                    layerOptions: {
+                        radius: 20,
+                        blur: 15,
+                        source_id:'feature-' + $scope.key,
+                        gradient: {
+                            '0.20': 'Green',
+                            '0.40': 'Blue',
+                            '0.60': 'Yellow',
+                            '0.80': 'Orange',
+                            '1': 'Red'
+                        }
+                    },
+                    visible: true
+                }/*,
+                 onEachFeature: function (feature, layer) {
+                 layer.on('click', function(e){
+                 console.log(e);
+                 var coordinates = e.target.feature.geometry.coordinates;
+                 var swapped_coordinates = [coordinates[1], coordinates[0]];  //Swap Lat and Lng
+                 if ($scope.G) {
+                 layerPopup = L.popup()
+                 .setLatLng(swapped_coordinates)
+                 .setContent('Popup for feature #'+e.target.feature.properties.County)
+                 .openOn($scope.G);
+                 }
+                 });
+                 }*/
+            };
+            console.log($scope.G);
+        }
 
         $scope.showResourcesOnMap = function(json,type)
         {
@@ -289,18 +295,33 @@ angular.module('webApp.controllers')
 
         $scope.increaseDate = function()
         {
-            //debugger;
+
             console.log("in increaseDate");
-            $scope.date = increment(new Date($scope.date));
-            console.log($scope.date);
-            $scope.heatmaps();
+            if(!$scope.heatmap)
+            {
+                notifyService.notify("Heat map is not checked");
+                return;
+            }
+            else
+            {
+                $scope.date = increment(new Date($scope.date));
+                $scope.showHeatmap();
+            }
         }
 
         $scope.decreaseDate = function()
         {
             console.log("in decreaseDate");
-            $scope.date = decrement(new Date($scope.date));
-            console.log($scope.date);
+            if(!$scope.heatmap)
+            {
+                notifyService.notify("Heat map is not checked");
+                return;
+            }
+            else
+            {
+                $scope.date = decrement(new Date($scope.date));
+                $scope.showHeatmap();
+            }
         }
 
         function formatDate(date) {
