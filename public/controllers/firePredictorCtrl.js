@@ -219,7 +219,7 @@ angular.module('webApp.controllers')
         $scope.showResourcesOnMap = function(json,type)
         {
             var power_plant_icon = new weatherIcon({iconUrl: '/images/pole-icon.png'});
-            var generator_icon = new weatherIcon({iconUrl: '/images/generator.png'});
+            var generator_icon = new weatherIcon({iconUrl: '/images/generator-icon.png'});
             var layerPopup;
             var icon;
             if(type == "generators")
@@ -352,11 +352,13 @@ angular.module('webApp.controllers')
             var popup;
             for(i = 0; i < array.length; i++)
             {
-                popLocation = new L.LatLng(array[i][0],array[i][1]);
-                popup = L.popup()
-                    .setLatLng(popLocation)
-                    .setContent('<p>Hello world!<br />This is a nice popup.</p>')
-                    .openOn(map);
+                $scope.G.on('click', function(e) {
+                    popLocation= e.latlng;
+                    popup = L.popup()
+                        .setLatLng(popLocation)
+                        .setContent('<p>Hello world!<br />This is a nice popup.</p>')
+                        .openOn($scope.G);
+                });
                 for(j = 0; j < 100; j++)
                 {
                     newArray.push(array[i]);
