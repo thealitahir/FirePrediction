@@ -96,6 +96,24 @@
 </head>
 <body>
 
+<!--Loader block-->
+<div id="loading" class="loading" ng-show="loadingStart">
+    <div class="loading-inner">
+        <div class="loading-message">
+            <strong>Loading</strong>
+        </div>
+    </div>
+</div>
+
+<!--Notification block-->
+<div ng-hide="showMessage"  class="notification">
+    <div class="notification-inner">
+        <div class="notification-message">
+            <strong ng-bind="message"></strong>
+        </div>
+    </div>
+</div>
+
 <nav class="navbar navbar-expand-md navbar-dark fixed-top navbar-bg">
 
 

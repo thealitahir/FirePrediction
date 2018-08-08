@@ -4,8 +4,6 @@
 
 angular.module('webApp.controllers')
     .controller('firePredictorCtrl', ['$scope','$state','firePredictorService','notifyService','$http','leafletData', function ($scope,$state,firePredictorService,notifyService,$http,leafletData) {
-
-
         angular.extend($scope, {
             center: {
                 lat: 36.7783,
@@ -36,6 +34,8 @@ angular.module('webApp.controllers')
             }
         );
         $scope.key;
+        $scope.date = formatDate(new Date());
+        console.log($scope.date);
         var weatherIcon = L.Icon.extend({
             options: {
                 iconSize:     [15, 15], // size of the icon
@@ -49,6 +49,7 @@ angular.module('webApp.controllers')
             $scope.key = "powerPlants";
             if($scope.powerPlant)
             {
+                notifyService.showLoading();
                 $http.get("/json/natural_gas_station1.json").success(function(data, status) {
                     $scope.showResourcesOnMap(data,$scope.key);
                 });
@@ -65,6 +66,7 @@ angular.module('webApp.controllers')
             if($scope.transmissionLine)
             {
                 console.log("show");
+                notifyService.showLoading();
                 $http.get("/json/natural_gas_pipelines.json").success(function(data, status) {
                     $scope.showResourcesOnMap(data, $scope.key);
                 });
@@ -78,92 +80,261 @@ angular.module('webApp.controllers')
 
         $scope.generators = function ()
         {
-            $scope.check = "generators";
-            console.log($scope.check);
-        }
-
-        $scope.heatmaps = function ()
-        {
-            if($scope.heatmap)
+            console.log("in generators")
+            $scope.key = "generators";
+            if($scope.generator)
             {
-                $http.get("json/heat-points.json").success(function(data) {
-                    $scope.layers.overlays = {
-                        heat: {
-                            name: 'Heat Map',
-                            type: 'heat',
-                            data: data,
-                            layerOptions: {
-                                radius: 15,
-                                blur: 0,
-                                max: 1.0,
-                                gradient: {
-                                    '0.20': 'Green',
-                                    '0.40': 'Blue',
-                                    '0.60': 'Yellow',
-                                    '0.80': 'Orange',
-                                    '1': 'Red'
-                                }
-                            },
-                            visible: true
-                        }
-                    };
+                notifyService.showLoading();
+                $http.get("/json/electric_generators.json").success(function(data, status) {
+                    $scope.showResourcesOnMap(data,$scope.key);
+
                 });
             }
             else
             {
                 $scope.removeShapeLayers('feature-' + $scope.key);
             }
-            $scope.check = "heatmap";
         }
+        $scope.heatmap_data;
+        $scope.heatmaps = function ()
+        {
+            $scope.key = "heatmap"
+            var flag = false;
+            if($scope.heatmap)
+            {
+                firePredictorService.getFirePredictorValues().success(function (res) {
+                    if(res.status)
+                    {
+                        $scope.fire_array = [];
+                        $scope.fire_obj = {
+                            latlng:[],
+                            counties:[],
+                            wind:[],
+                            temperature:[],
+                            humidity:[]
+                        };
+                        var dd,mm,yyyy;
+                        var keys = []
+                        $scope.fire_data = [];
+                        $scope.latlang = [];
+                        console.log(res.data);
+                        $scope.fire_predictor_values = res.data;
+                        for(i = 0; i < $scope.fire_predictor_values.length; i++)
+                        {
+                            prediction_outer_object_keys = []
+                            var day,month,year;
+                            prediction_outer_object_keys = Object.keys($scope.fire_predictor_values[i]);
+                            prediction_outer_object_keys.forEach(function(outer_key){
+                                if(outer_key != "_id")
+                                {
+                                    $scope.latlang.push($scope.fire_predictor_values[i][outer_key]["latitude"]);
+                                    $scope.latlang.push($scope.fire_predictor_values[i][outer_key]["longitude"]);
+                                    $scope.latlang.push($scope.fire_predictor_values[i][outer_key]["Predictions"]);
+                                    $scope.fire_obj.latlng.push($scope.latlang);
+                                    $scope.latlang = [];
+                                    $scope.fire_obj.wind.push($scope.fire_predictor_values[i][outer_key]["Wind"]);
+                                    $scope.fire_obj.temperature.push($scope.fire_predictor_values[i][outer_key]["Temp"]);
+                                    $scope.fire_obj.humidity.push($scope.fire_predictor_values[i][outer_key]["Rel_Humidity"]);
+                                    $scope.fire_obj.counties.push($scope.fire_predictor_values[i][outer_key]["county"]);
+                                    dd = $scope.fire_predictor_values[i][outer_key]["Day"];
+                                    if(dd < 10)
+                                    {
+                                        dd = "0" + dd;
+                                    }
+                                    mm = $scope.fire_predictor_values[i][outer_key]["Month"];
+                                    if(mm < 10)
+                                    {
+                                        mm = "0" + mm;
+                                    }
+                                    yyyy = $scope.fire_predictor_values[i][outer_key]["Year"];
+                                    $scope.fire_obj.date = dd + "-" + mm + "-" + yyyy;
+                                }
+                            });
+                            if($scope.date == $scope.fire_obj.date)
+                            {
+                                flag = true;
+                                $scope.heatmap_data = $scope.fire_obj;
+                            }
+                            $scope.fire_array.push($scope.fire_obj);
+                            $scope.fire_obj = {
+                                latlng:[],
+                                counties:[],
+                                wind:[],
+                                temperature:[],
+                                humidity:[]
+                            };
+                        }
+                        if (!flag)
+                        {
+                            notifyService.notify("No record for this date found");
+                            return;
+                        }
+                        var data = setArray($scope.heatmap_data.latlng)
+                        $scope.layers.overlays = {
+                            heat: {
+                                name: 'Heat Map',
+                                type: 'heat',
+                                data: data,
+                                layerOptions: {
+                                    radius: 20,
+                                    blur: 15,
+                                    source_id:'feature-' + $scope.key,
+                                    gradient: {
+                                        '0.20': 'Green',
+                                        '0.40': 'Blue',
+                                        '0.60': 'Yellow',
+                                        '0.80': 'Orange',
+                                        '1': 'Red'
+                                    }
+                                },
+                                visible: true
+                            }/*,
+                             onEachFeature: function (feature, layer) {
+                             layer.on('click', function(e){
+                             console.log(e);
+                             var coordinates = e.target.feature.geometry.coordinates;
+                             var swapped_coordinates = [coordinates[1], coordinates[0]];  //Swap Lat and Lng
+                             if ($scope.G) {
+                             layerPopup = L.popup()
+                             .setLatLng(swapped_coordinates)
+                             .setContent('Popup for feature #'+e.target.feature.properties.County)
+                             .openOn($scope.G);
+                             }
+                             });
+                             }*/
+                        };
+                        console.log($scope.G);
+                    }
+                });
+            }
+            else
+            {
+                $scope.removeShapeLayers('feature-' + $scope.key);
+            }
+        }
+
+
 
         $scope.showResourcesOnMap = function(json,type)
         {
-            var hurricaneIcon = new weatherIcon({iconUrl: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QoBAxAud5K8hAAAAVFJREFUOMulk7FqwlAUhn9LHbIZwSmIxClbwMnNsWQqTnmDvEOewM3Nl4gU2i2lUPAFhEwREUXUJUIchRT6d7ia9GpiIz3ww73n3vvBPec/FZIojP0+xnSqYjIBlktgvRZ5VQWaTcA0gecnPBYCxmNiOMRXEKB6PIqcYQD9PtDrCZCuHwAAJGVtF6TjMFEUEshk2+R2wav74vRXIopi2rb8+KTvep20LNL3eRviurkASZpGeh5zIck8FBf+ggCkYTCZhyno4VzH6ssrsNuhVMxmqH58ptsUgtUKd0UQ5ED+ERnENO97qevZWiqsYZQrrKZJhZVb7HnlOuS6LPYJCfo+aVnCXHkA2yajKL4NOX/twrmJopCOk2v9dF6SeSgsPRhItUkUhex2ydEod25IosLtgnh7F33fbIRfajWg1QLabTGxnc4BjUa9sFNX5Iv/ltEPO/n21h3V82sAAAAASUVORK5CYII='});
             var stormIcon = new weatherIcon({iconUrl: '/images/natural-gas-icon.png'});
-            var depressionIcon = new weatherIcon({iconUrl: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QoBAxIgohzzAQAAARlJREFUOMutlLFqwzAQhk8FF1xwqdNRW7poy+pX8ByC3kDvkFdyyJ5X8JgtUMgDSEQJ9WZD/w7CkR07AuMeHEb+pc/H3S8zADQ3XoKqMbb5PoGMsaFtbLSS3Q603xMdj/7dakW0XhNtNmywH4BPrS2UQh3HANEg6zgGlAK0tt1zfUgXIAQgJbDduifnHqgUxiFF4QFZBpQlelGWQJ77ig4HDCFSuiXnQ0AX1FYk5QNEawshuuLzaD8mxL03bsT1T0pV5Tq9XIZN0epVRc3tknqfvL5fKUmceD6HIa2eJBR9fF77I57dk8fp5Pn4dLIMIMLvYgEUBZ765O4Fzp0fJvlkhmP/5e6w4K/AGNvcLmn0FhHxLzbtFk+MP6p09GzHwZBXAAAAAElFTkSuQmCC'});
-            var prestormIcon = new weatherIcon({iconUrl: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QoBAxU3bo7gAQAAALNJREFUOMvNU8sOwyAMc6epE9de+938BHwJfE9pSzXNO6BuoPKY1h0WKZfEcQyGjiTOxgU/iDeJtYTWhJuLYL9tgNaEtal8kiGVIseRlJKvWpSr96CUAaNUgjmAHsNASsnV+5So0jtsjME58pxK5IrJUE1djSTevglRVLBn1uJb3wMA7suCqxBtj2sqvj/ObmM89OnF1ixu2Z99bCXZzcdGY0JzckUXOLmwzJiEpPvDX3winqe9C5rOnaU+AAAAAElFTkSuQmCC'});
-            var poststormIcon = new weatherIcon({iconUrl: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QoBAxYc6R9KggAAAWdJREFUOMutUz1PwlAUPSUppBBCYGDpBFM3/oD+BgaGzixv073RUcOu6cJPaMKo4W+wmZiUuR0KBGpoGY7Ds69URFS8yc3Lux/n3XfPvRpJnCulY44kTYEwjHavL0QYRkmaHgXRDiqJ34DnJ2IyAWaz3N7rAcMhcHGpoVYt5pDMNQgiCsHUMEjgQFPDIIUggyDaz8sBNjEKAKZJ2jbpOPI0zRxQCHITfwHieQogNQzSdVkQ1y36PY8FkG2SgLZdrMCyskByOpX3j4pSwyBtm9sk2askCCJalrzaNrmJydFIJgohT8eR9uwxy1K9KQHAbhU1Vae7XaBWBa6uJSPjMdDpADe30t7tqtAsrwQAeqO1UB7flzQ/PkiKhQDmc+D+Ttp9X4XqVT2n+Lc9Ud/+d3aUCpHPwuc5yRr/7ZycMbGnd2e9Bup1ydRggKTf1yrl8okF3NviynIZ7VZRU2+0Fmi3Wz/f4j/IO6YU957m4lBDAAAAAElFTkSuQmCC'});
+            var layerPopup;
             $scope.geojsonLayer = L.geoJson(json, {
                 pointToLayer: function(feature, LatLng) {
-                    var icon;
-                    icon = stormIcon;
-                    /*switch (type) {
-                        case 's': icon = stormIcon; break;
-                        case 'x': icon = prestormIcon; break;
-                        case 'm': icon = hurricaneIcon; break;
-                        case 'h': icon = hurricaneIcon; break;
-                        case 'd': icon = depressionIcon; break;
-                        case 'i': icon = poststormIcon; break;
-                    }*/
-                    return L.marker(LatLng, {icon: icon});
+                    return L.marker(LatLng, {icon: stormIcon});
                 },
                 onEachFeature: function (feature, layer) {
+                    layer.on('click', function(e){
+                        console.log(e);
+                        var coordinates = e.target.feature.geometry.coordinates;
+                        var swapped_coordinates = [coordinates[1], coordinates[0]];  //Swap Lat and Lng
+                        if ($scope.G) {
+                            layerPopup = L.popup()
+                                .setLatLng(swapped_coordinates)
+                                .setContent('Popup for feature #'+e.target.feature.properties.County)
+                                .openOn($scope.G);
+                        }
+                    });
+                    if(type == "transmissionLines"){
+                        layer.setStyle({
+                            weight: 2,
+                            opacity: 1,
+                            dashArray: '3',
+                            fillOpacity: 0.7
+                        });
+                    }
                     // At this point 'layer._path' exists in the layer object
                     // but it will return as 'undefined' so this is of no use
                     // So the following doesn't work:
                     layer.source_id = 'feature-' + type
                 }
             }).addTo($scope.G);
+            notifyService.hideLoading();
             console.log($scope.G);
+            /*$scope.G.on('click', function(e){
+                console.log(e);
+                /!*var coordinates = e.target.feature.geometry.coordinates;
+                 var swapped_coordinates = [coordinates[1], coordinates[0]];  //Swap Lat and Lng
+                 if ($scope.G) {
+                 layerPopup = L.popup()
+                 .setLatLng(swapped_coordinates)
+                 .setContent('Popup for feature #'+e.target.feature.properties.County)
+                 .openOn($scope.G);
+                 }*!/
+            });*/
         }
 
         $scope.removeShapeLayers = function(id){
             console.log("in removeShapeLayers");
-            console.log($scope.G._layers);
+            //console.log($scope.G);
             for(var key in $scope.G._layers){
-                console.log($scope.G._layers[key]);
-                console.log($scope.G._layers[key].source_id);
-                if($scope.G._layers[key].source_id == id) {
+                /*console.log($scope.G._layers[key]);
+                console.log($scope.G._layers[key].source_id);*/
+                if(id == "feature-heatmap")
+                {
+                    console.log($scope.G._layers[key].options);
+                    if(undefined != $scope.G._layers[key].options && undefined != $scope.G._layers[key].options.source_id) {
+                        if ($scope.G._layers[key].options.source_id == id) {
+                            console.log($scope.G._layers[key].options.source_id);
+                            $scope.G.removeLayer($scope.G._layers[key]);
+                            $scope.layers.overlays = {};
+                        }
+                    }
+                }
+                else if($scope.G._layers[key].source_id == id) {
                     $scope.G.removeLayer($scope.G._layers[key]);
                 }
             }
         }
 
-        /*firePredictorService.getFirePredictorValues().success(function (res) {
-            if(res.status)
+        $scope.increaseDate = function()
+        {
+            //debugger;
+            console.log("in increaseDate");
+            $scope.date = increment(new Date($scope.date));
+            console.log($scope.date);
+            $scope.heatmaps();
+        }
+
+        $scope.decreaseDate = function()
+        {
+            console.log("in decreaseDate");
+            $scope.date = decrement(new Date($scope.date));
+            console.log($scope.date);
+        }
+
+        function formatDate(date) {
+            var today = new Date(date);
+            var dd = today.getDate();
+            if(dd < 10)
+                dd = "0" + dd;
+            var mm = today.getMonth()+1; //January is 0!
+            if(mm < 10)
+                mm = "0" + mm;
+            var yyyy = today.getFullYear();
+            return mm + "-" + dd + "-" + yyyy;
+        }
+        function increment(date){
+            date.setDate(date.getDate()+1);
+            return formatDate(date);
+        }
+        function decrement(date){
+            date.setDate(date.getDate()-1);
+            return formatDate(date);
+        }
+        function setArray(array)
+        {
+            var newArray = []
+            var outerArray = [];
+            for(i = 0; i < array.length; i++)
             {
-                $scope.fire_predictor_values = res.data;
+                for(j = 0; j < 100; j++)
+                {
+                    newArray.push(array[i]);
+                }
             }
-        });*/
+            return newArray;
+
+        }
 
     }]);
