@@ -530,13 +530,6 @@ angular.module('webApp.controllers')
             var popup;
             for(i = 0; i < array.length; i++)
             {
-                $scope.G.on('click', function(e) {
-                    popLocation= e.latlng;
-                    popup = L.popup()
-                        .setLatLng(popLocation)
-                        .setContent('<p>Hello world!<br />This is a nice popup.</p>')
-                        .openOn($scope.G);
-                });
                 var size = parseInt(array[i][2]);
                 for(j = 0; j < size; j++)
                 {
