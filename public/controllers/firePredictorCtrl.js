@@ -350,7 +350,7 @@ angular.module('webApp.controllers')
                                 clickable:true,
                                 source_id : 'feature-' + $scope.key
                             }).addTo($scope.G).on("click", groupClick).bindPopup( " Fire Probablitiy : " + probablity + "<br>"
-                                                                                + " Temperature : " + $scope.heatmap_data.temperature[i]+ "°C " + "<br>"
+                                                                                + " Temperature : " + $scope.heatmap_data.temperature[i]+ "&deg;C " + "<br>"
                                                                                 + " Wind : " + $scope.heatmap_data.wind[i] + "<br>"
                                                                                 + " Humidity : " + $scope.heatmap_data.humidity[i] + "<br>"
                                                                                 + " Precipitation : " + $scope.heatmap_data.precipitation[i]);
