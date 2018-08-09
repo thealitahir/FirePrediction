@@ -80,13 +80,21 @@
                         </div>
 
 
-
                         <div class="cell">
                             <label for="changeOpacity">
                                 <input type="checkbox" name="changeOpacity" ng-model="heatmap" id="changeOpacity" ng-click="heatmaps()">
                                 <span class="square"></span>
+                                Heat Map
                             </label>
-                            <span ng-click="showCellContent4 = !showCellContent4">Heat Map</span>
+                        </div>
+
+
+                        <div class="cell">
+                            <label for="circle">
+                                <input type="checkbox" name="circle" ng-model="circle" id="circle" ng-click="drawCircle()">
+                                <span class="square"></span>
+                            </label>
+                            <span ng-click="showCellContent4 = !showCellContent4" style="margin-left: -3px;">Heat Circles</span>
                         </div>
                         <div class="cell-content" ng-show="showCellContent4">
                             <ul>
@@ -112,6 +120,8 @@
                                 </li>
                             </ul>
                         </div>
+
+
 
                     </div>
                 </div>

@@ -11,6 +11,11 @@ angular.module('webApp.services').factory('firePredictorService',['$http',functi
             return $http.get(url);
         },
 
+        getUser: function(){
+            var url='/getUser';
+            return $http.get(url);
+        },
+
         getAllServices: function(){
             var url='/getServices';
             return $http.get(url);

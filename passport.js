@@ -72,11 +72,13 @@ module.exports = function(passport,flash){
                     newUser.lastName = req.body.lname;
                     //newUser.role=role._id;
 
-
+                    console.log(newUser)
                     /*newUser.token = Math.floor((Math.random() * 100) + 54);*/    //generating token
                     // save the user
                     newUser.save(function (err, obj) {
+                        console.log("in save")
                         if (err) {
+                            console.log(err);
                             return done(err);
                         }
                         return done(null, newUser);

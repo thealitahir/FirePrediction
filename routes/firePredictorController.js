@@ -18,4 +18,9 @@ exports.getFirePredictorValues = function(req,res)
            res.send({status:200, message:"Record Found.", data:data});
        }
     });
+},
+
+exports.getUser = function(req,res)
+{
+    res.send({status:200, message:"user Found.", data:req.user});
 }

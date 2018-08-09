@@ -58,7 +58,7 @@ app.use(passport.session());
 //app.set('view engine', 'jade');
 //app.use(fileUpload());
 //-----------------------------------Redirect HANDLER----------------------------//
-/*app.use(function(req, res, next) {
+app.use(function(req, res, next) {
 
   // if user is authenticated in the session, carry on
   if (!req.isAuthenticated() && ((req.url == '/') || (req.url == '/updateService/')|| (req.url == '/AddService/')))
@@ -71,7 +71,7 @@ app.use(passport.session());
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     return next();
   }
-});*/
+});
 
 app.get('/test', function(req, res) {
   res.render('test');
@@ -139,6 +139,7 @@ app.get('/updateAccountTOS/:account_id/:ip/:id/:auth_key',routes.updateAccountTO
 app.post('/createIdentity',routes.createIdentity);*/
 //front end
 app.get('/getFirePredictorValues',filePredictorRoute.getFirePredictorValues)
+app.get('/getUser',filePredictorRoute.getUser);
 app.get('/getUsers',routes.getUsers);
 app.get('/login',routes.renderLoginTemplate);
 app.get('/registerAdmin',routes.renderSignUpTemplate);
