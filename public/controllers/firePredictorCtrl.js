@@ -6,9 +6,9 @@ angular.module('webApp.controllers')
     .controller('firePredictorCtrl', ['$scope','$state','firePredictorService','notifyService','$http','leafletData', function ($scope,$state,firePredictorService,notifyService,$http,leafletData) {
         angular.extend($scope, {
             center: {
-                lat: 36.7783,
-                lng: -119.4179,
-                zoom: 8
+                lat: 43.8041,
+                lng: -120.5542,
+                zoom: 7
             },
             defaults: {
                 scrollWheelZoom: false
@@ -73,7 +73,7 @@ angular.module('webApp.controllers')
             {
                 console.log("show");
                 notifyService.showLoading();
-                $http.get("/json/natural_gas_pipelines.json").success(function(data, status) {
+                $http.get("/json/oregon_electric_transmission_line.json").success(function(data, status) {
                     $scope.showResourcesOnMap(data, $scope.key);
                 });
             }
@@ -110,6 +110,7 @@ angular.module('webApp.controllers')
             $scope.key = "heatmap"
             if($scope.heatmap)
             {
+                notifyService.showLoading();
                 firePredictorService.getFirePredictorValues().success(function (res) {
                     if(res.status)
                     {
@@ -183,7 +184,6 @@ angular.module('webApp.controllers')
         $scope.showHeatmap = function()
         {
             var flag = false;
-            notifyService.showLoading();
             for(i = 0; i < $scope.fire_array.length; i++)
             {
                 if($scope.date == $scope.fire_array[i].date)
@@ -401,7 +401,7 @@ angular.module('webApp.controllers')
                     return L.marker(LatLng, {icon: icon});
                 },
                 onEachFeature: function (feature, layer) {
-                    layer.on('click', function(e){
+                    /*layer.on('click', function(e){
                         console.log(e);
                         var coordinates = e.target.feature.geometry.coordinates;
                         var swapped_coordinates = [coordinates[1], coordinates[0]];  //Swap Lat and Lng
@@ -411,7 +411,7 @@ angular.module('webApp.controllers')
                                 .setContent('Popup for feature #'+e.target.feature.properties.County)
                                 .openOn($scope.G);
                         }
-                    });
+                    });*/
                     if(type == "transmissionLines"){
                         layer.setStyle({
                             weight: 2,

@@ -17,7 +17,7 @@ var geocoder = require('geocoder');
 var elasticsearch=require('elasticsearch');
 var VehicleInfo = require("../model/vehicleInfo.model.js");
 var client = new elasticsearch.Client({
-  hosts: [ 'http://10.0.4.206:9200']
+  hosts: [ 'http://216.168.41.46:9200']
 });
 var compare = require('alphanumeric-sort').compare;
 var crg = require('country-reverse-geocoding').country_reverse_geocoding();/**
