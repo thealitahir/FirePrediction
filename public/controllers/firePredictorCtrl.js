@@ -8,7 +8,7 @@ angular.module('webApp.controllers')
             center: {
                 lat: 43.8041,
                 lng: -120.5542,
-                zoom: 7
+                zoom: 8
             },
             defaults: {
                 scrollWheelZoom: false
