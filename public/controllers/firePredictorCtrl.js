@@ -8,7 +8,7 @@ angular.module('webApp.controllers')
             center: {
                 lat: 43.8041,
                 lng: -120.5542,
-                zoom: 8
+                zoom: 7
             },
             defaults: {
                 scrollWheelZoom: false
@@ -74,6 +74,9 @@ angular.module('webApp.controllers')
                 console.log("show");
                 notifyService.showLoading();
                 $http.get("/json/oregon_electric_transmission_line.json").success(function(data, status) {
+                    $scope.showResourcesOnMap(data, $scope.key);
+                });
+                $http.get("/json/natural_gas_pipelines.json").success(function(data, status) {
                     $scope.showResourcesOnMap(data, $scope.key);
                 });
             }
@@ -471,7 +474,7 @@ angular.module('webApp.controllers')
             console.log("in increaseDate");
             if(!$scope.heatmap && !$scope.circle)
             {
-                notifyService.notify("Heat map is not checked");
+                notifyService.notify("Heat map or Fire Circle is not checked");
                 return;
             }
             else
