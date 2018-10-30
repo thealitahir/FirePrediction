@@ -19,7 +19,7 @@ var filePredictorRoute = require('./routes/firePredictorController');
 var elasticRoute = require('./routes/elasticRoute');
 var app = express();
 app.use(fileUpload());
-mongoose.connect("mongodb://10.0.4.206:9876/test");
+mongoose.connect("mongodb://10.0.5.54:9876/test");
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
@@ -28,7 +28,7 @@ db.once('open', function() {
 
 app.use(session({ secret: 'keyboard cat', store : new MongoStore(
     {
-	    url: 'mongodb://10.0.4.206:9876'
+	    url: 'mongodb://10.0.5.54:9876'
     }),
   resave: true, saveUninitialized: true }));
 
