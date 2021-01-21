@@ -59,7 +59,7 @@
     "sendmail": "^1.2.0",
     "serve-favicon": "~2.3.0",
     "session": "^0.1.0",
-    "socket.io": "^2.0.4",
+    "socket.io": "^2.4.0",
     "socket.io-client": "^2.0.4",
     "stripe": "^5.5.0",
     "stripe-api": "^0.1.2",
