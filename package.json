@@ -48,7 +48,7 @@
     "node-cron": "^1.2.1",
     "node-geocoder": "^3.21.1",
     "node-where": "^1.1.0",
-    "nodemailer": "^4.4.1",
+    "nodemailer": "^6.4.16",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
