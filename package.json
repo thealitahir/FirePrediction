@@ -18,7 +18,7 @@
     "credentials": "^2.0.0",
     "crypto": "^1.0.1",
     "csvdata": "^1.4.0",
-    "debug": "~2.2.0",
+    "debug": "~2.6.9",
     "ejs": "^2.6.1",
     "elasticsearch": "^14.0.0",
     "express": "^4.16.2",
